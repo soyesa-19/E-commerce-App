@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import Card from "../UI/Card";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
@@ -6,10 +7,11 @@ import { useSelector } from "react-redux";
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
   const totalCartPrice = useSelector((store) => store.cart.totalPrice);
+  const { t } = useTranslation("cart");
   console.log(cartItems);
   return (
     <Card className={classes.cart}>
-      <h2>Your Shopping Cart</h2>
+      <h2>{t("your_cart")}</h2>
       <ul>
         {cartItems.map((item) => {
           return (
@@ -26,7 +28,7 @@ const Cart = () => {
           );
         })}
       </ul>
-      <p>Total Price : {totalCartPrice}</p>
+      <p>{`${t("total_price")} : ${totalCartPrice}`}</p>
       <button
         onClick={() =>
           alert(
@@ -34,7 +36,7 @@ const Cart = () => {
           )
         }
       >
-        Proceed to Pay
+        {t("proceed_payment")}
       </button>
     </Card>
   );
