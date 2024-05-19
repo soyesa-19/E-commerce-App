@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import Card from "../UI/Card";
 import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
-import { useTransition } from "react";
 import { useSelector } from "react-redux";
 
 const Cart = () => {
