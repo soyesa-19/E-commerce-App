@@ -7,6 +7,7 @@ import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { addItem } from "../store/cart-slice";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ title, image, description, price, rating, id }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -30,9 +31,11 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
         sx={{ objectFit: "cover" }}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h4">
-          {`${title.slice(0, 30)}...`}
-        </Typography>
+        <Link to={`/productDetails?orderId=${id}`}>
+          <Typography gutterBottom variant="h5" component="h4">
+            {`${title.slice(0, 30)}...`}
+          </Typography>
+        </Link>
         <Typography variant="body2" color="textSecondary" component="p">
           {showFullDescription ? description : `${description.slice(0, 50)}...`}
         </Typography>
