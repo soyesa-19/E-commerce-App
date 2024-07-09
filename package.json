@@ -15,6 +15,8 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.17.3",
     "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "env-cmd": "^10.1.0",
     "i18next": "^23.11.4",
     "i18next-http-backend": "^2.5.2",
     "react": "^18.2.0",
@@ -26,9 +28,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "env-cmd -f .env.dev react-scripts start",
+    "build": "env-cmd -f .env.dev react-scripts build",
+    "test": "env-cmd -f .env.dev react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

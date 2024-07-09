@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import axios from "axios";
+import api from "./services/axios/http";
 import { useDispatch } from "react-redux";
 import { addFilteredProducts, addProducts } from "./store/products_slice";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -9,6 +9,9 @@ import RootLayout from "./pages/Root";
 import Cart from "./pages/CartPage";
 import ProductDetails from "./pages/ProductDetails";
 import Chekout from "./pages/Chekout";
+
+const GET_PRODUCTS_LIST = process.env.FETCH_ALL_PRODUCTS;
+console.log(GET_PRODUCTS_LIST);
 
 const router = createBrowserRouter([
   {
@@ -41,7 +44,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("http://localhost:5000/api/products");
+      const response = await api.get("/api/products");
       console.log(response);
       dispatch(addProducts(response.data));
       dispatch(addFilteredProducts(response.data));
