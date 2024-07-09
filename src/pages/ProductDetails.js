@@ -1,9 +1,10 @@
-import axios from "axios";
+import api from "../services/axios/http";
 import { Image } from "antd";
 import { useEffect, useState } from "react";
 import { LOREM_IPSUM } from "../constants";
 import { ShareAltOutlined } from "@ant-design/icons";
-import { Button as CustomButton } from "../components/Button/button";
+
+const GET_PRODUCTS_LIST = process.env.PRODUCT_DETAILS;
 
 const ProductDetails = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -12,12 +13,11 @@ const ProductDetails = () => {
 
   useEffect(() => {
     const getProductData = async () => {
-      const response = await axios.get("https://fakestoreapi.com/products");
-      const productDetail = response?.data?.filter((prod) => {
-        return prod.id == orderId;
-      });
-      setProdDetail(productDetail?.[0]);
-      console.log(productDetail);
+      const response = await api.get(
+        `/api/products/productDetails?prodId=${orderId}`
+      );
+      setProdDetail(response?.data);
+      console.log(response?.data);
     };
     getProductData();
   }, []);
@@ -43,12 +43,7 @@ const ProductDetails = () => {
           </div>
           <p>${prodDetail?.price}</p>
         </div>
-        <div>
-          <CustomButton onClick={() => alert("hello")}>
-            Move to cart
-          </CustomButton>
-          <CustomButton onClick={() => alert("hello")}>Buy now</CustomButton>
-        </div>
+        <div></div>
       </div>
     </div>
   );
