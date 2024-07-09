@@ -5,13 +5,7 @@ import Filter from "../components/Filter";
 const HomePage = () => {
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "8px",
-        }}
-      >
+      <div className=" flex justify-between">
         <SearchBar />
         <Filter />
       </div>

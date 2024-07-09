@@ -31,7 +31,7 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
         sx={{ objectFit: "cover" }}
       />
       <CardContent>
-        <Link to={`/productDetails?orderId=${id}`}>
+        <Link to={`/productDetails?productId=${id}`}>
           <Typography gutterBottom variant="h5" component="h4">
             {`${title.slice(0, 30)}...`}
           </Typography>

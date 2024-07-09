@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import RootLayout from "./pages/Root";
 import Cart from "./pages/CartPage";
 import ProductDetails from "./pages/ProductDetails";
+import Chekout from "./pages/Chekout";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,11 @@ const router = createBrowserRouter([
         path: "cart",
         element: <Cart />,
       },
+
+      {
+        path: "checkout",
+        element: <Chekout />,
+      },
     ],
   },
 ]);
@@ -35,7 +41,8 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("https://fakestoreapi.com/products");
+      const response = await axios.get("http://localhost:5000/api/products");
+      console.log(response);
       dispatch(addProducts(response.data));
       dispatch(addFilteredProducts(response.data));
     };
