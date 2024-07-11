@@ -18,8 +18,11 @@ const Header = () => {
       <Link to={"/"}>
         <h4>{t("Welcome")}</h4>
       </Link>
-      <Link to={"cart"}>
+      <Link to={"/checkout"}>
         <span>{totalQty}</span>
+        <ShoppingCartIcon />
+      </Link>
+      <Link to={"/logout"}>
         <ShoppingCartIcon />
       </Link>
     </div>
