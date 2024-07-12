@@ -32,6 +32,20 @@ module.exports = {
       },
       boxShadow: { brandShadow: "0px 1px 3px 0px rgba(166, 175, 195, 0.4)" },
       height: { "60vh": "60vh", "80vh": "80vh", "100vh": "100vh" },
+      keyframes: {
+        slideIn: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        slideOut: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+      animation: {
+        slideIn: "slideIn 0.5s ease-in-out forwards",
+        slideOut: "slideOut 0.5s ease-in-out forwards",
+      },
     },
   },
   plugins: [],
