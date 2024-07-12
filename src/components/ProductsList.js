@@ -34,11 +34,7 @@ const ProductList = () => {
   const currentProds = productsList.slice(firstProdIndex, lastProdindex);
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-        }}
-      >
+      <div className=" flex flex-row gap-8 justify-center p-16 flex-wrap">
         {currentProds.map((product) => (
           <ProductCard
             key={product.id}
@@ -51,7 +47,7 @@ const ProductList = () => {
           />
         ))}
       </div>
-      {productsList.length > prodPerPage && (
+      {/* {productsList.length > prodPerPage && (
         <Pagination
           prevPage={prevPage}
           nextPage={nextPage}
@@ -61,7 +57,7 @@ const ProductList = () => {
           pages={Math.abs(productsList.length / prodPerPage)}
           currentPage={currentPage}
         />
-      )}
+      )} */}
     </>
   );
 };

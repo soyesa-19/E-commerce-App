@@ -1,14 +1,12 @@
 import SearchBar from "../components/SearchBar";
 import ProductList from "../components/ProductsList";
 import Filter from "../components/Filter";
+import Img from "../assets/images/img.jpeg";
 
 const HomePage = () => {
   return (
     <>
-      <div className=" flex justify-between">
-        <SearchBar />
-        <Filter />
-      </div>
+      <img src={Img} alt="image" />
       <ProductList />
     </>
   );

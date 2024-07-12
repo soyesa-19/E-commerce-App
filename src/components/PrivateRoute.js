@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 const PrivateRoute = ({ children }) => {
   const { authState } = useOktaAuth();
 
-  if (authState.isAuthenticated) return children;
+  if (authState?.isAuthenticated) return children;
   return <Navigate to="/signin_redirect" />;
 };
 

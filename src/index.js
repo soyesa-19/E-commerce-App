@@ -6,7 +6,7 @@ import store from "./store/index";
 import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 import { I18nextProvider } from "react-i18next";
-import i18n from "./i18n";
+import i18n from "./services/i18n/i18n";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
