@@ -7,11 +7,13 @@ import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { addItem } from "../store/cart-slice";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ title, image, description, price, rating, id }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleDescription = () => {
     setShowFullDescription((prevState) => !prevState);
@@ -22,35 +24,28 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
   };
 
   return (
-    <Card sx={{ width: "calc(60% - 20px)", margin: 10 }}>
-      <CardMedia
-        component="img"
-        height={150}
-        image={image}
-        alt={title}
-        sx={{ objectFit: "cover" }}
+    <div
+      onClick={() => navigate(`/productDetails?productId=${id}`)}
+      className=" w-[392px] h-[526px] flex flex-col gap-6"
+    >
+      <img
+        src={image}
+        className=" w-[376px] h-[390px] shadow-[0px_1px_3px_0px_rgba(166,175,195,0.4)]"
       />
-      <CardContent>
-        <Link to={`/productDetails?productId=${id}`}>
-          <Typography gutterBottom variant="h5" component="h4">
-            {`${title.slice(0, 30)}...`}
-          </Typography>
-        </Link>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {showFullDescription ? description : `${description.slice(0, 50)}...`}
-        </Typography>
-
-        <Button onClick={toggleDescription} size="small" color="primary">
-          {`Read ${showFullDescription ? "less" : "more"}`}
-        </Button>
-
-        <Typography variant="h6" component="p">
-          Price: ${price}
-        </Typography>
-        <Rating name="rating" value={rating.rate} precision={0.5} readOnly />
-        <button onClick={cartHandler}>Add to cart</button>
-      </CardContent>
-    </Card>
+      <div className=" w-full flex flex-row gap-4">
+        <div className="flex flex-col gap-2">
+          <p className=" text-brandDark text-[24px] leading-[30px] font-semibold">
+            {title.substring(0, 6)}
+          </p>
+          <p className=" text-brandDark text-[18px] leading-[26px] font-normal">
+            {price}
+          </p>
+          <p className=" text-brandTextPrimary text-base font-light">
+            {description?.substring(0, 7)}...
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

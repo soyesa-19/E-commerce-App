@@ -8,10 +8,45 @@
 } */
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  html {
+    font-family: "Inter", sans-serif !important;
+  }
+  body {
+    font-family: "Inter", sans-serif !important;
+  }
+  :root {
+    --color-brand-primary: rgb(255, 183, 3);
+    --color-brand-primary-foreground: rgb(17, 25, 40);
+    --color-brand-secondary: rgb(255 255 255);
+    --color-brand-secondary-foreground: rgb(2, 48, 71);
+    --color-brand-tertiary: rgb(255 255 255);
+    --color-brand-tertiary-foreground: rgb(17, 25, 40);
+    --color-brand-dark: rgb(17, 25, 40);
+    --color-brand-dark5: rgb(107, 114, 128);
+    --color-brand-text-primary: rgb(99, 115, 129);
+    --color-brand-text-secondary: rgb(136, 153, 168);
+    --color-brand-white: rgb(255 255 255);
+    --color-brand-gray: rgb(249, 250, 251);
+    --color-brand-gray2: rgb(243, 244, 246);
+    --color-brand-gray3: rgb(229, 231, 235);
+    --color-brand-gray4: rgba(136, 153, 168, 1);
+    --color-brand-stroke: rgba(223, 228, 234);
+    --color-brand-red: rgb(242, 48, 48);
+    --color-brand-yellowDark: rgb(245, 158, 11);
+    --color-brand-success: rgb(82, 196, 26);
+    --color-brand-green: rgb(34, 173, 92);
+    --color-brand-selectHover: rgba(255, 183, 3, 0.2);
+    --color-brand-notAvilable: rgba(223, 228, 234, 1);
+    --color-brand-booked: rgba(99, 115, 129, 1);
+    --color-brand-prceedDisabled: rgba(229, 231, 235, 1);
+    --color-brand-lightBlue: rgba(55, 88, 249, 0.08);
+  }
+}
