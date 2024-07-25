@@ -19,7 +19,7 @@ const Header = () => {
         <div className=" flex flex-row  justify-center gap-8">
           {authState?.isAuthenticated ? (
             <>
-              <Link to={"/checkout"}>
+              <Link to={"/cart"}>
                 <span>{totalQty}</span>
                 <ShoppingCartIcon />
               </Link>

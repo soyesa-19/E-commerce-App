@@ -16,6 +16,7 @@ import Chekout from "./pages/Chekout";
 import PrivateRoute from "./components/PrivateRoute";
 import SignInRedirect from "./components/SignInRedirect";
 import Logout from "./components/Logout";
+import CartPage from "./pages/cart/CartPage";
 
 const GET_PRODUCTS_LIST = process.env.REACT_APP_FETCH_ALL_PRODUCTS;
 
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: <CartPage />,
       },
 
       {
