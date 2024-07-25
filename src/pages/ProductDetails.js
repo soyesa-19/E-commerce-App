@@ -1,10 +1,12 @@
 import api from "../services/axios/http";
+import { useDispatch } from "react-redux";
 import { Image } from "antd";
 import { useEffect, useState } from "react";
-import { LOREM_IPSUM } from "../constants";
 import { ShareAltOutlined, HeartOutlined } from "@ant-design/icons";
+import ReactGA from "react-ga4";
+import { addItem } from "../store/cart-slice";
 
-const GET_PRODUCTS_LIST = process.env.PRODUCT_DETAILS;
+const GET_PRODUCTS_LIST = process.env.REACT_APP_PRODUCT_DETAILS;
 
 const ProductDetails = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -12,13 +14,32 @@ const ProductDetails = () => {
   const [prodDetail, setProdDetail] = useState();
   const [qty, setQty] = useState(1);
 
+  const dispatch = useDispatch();
+
+  const handleCart = () => {
+    const { id, price, title } = prodDetail;
+    dispatch(addItem({ id, price, title }));
+  };
+
   useEffect(() => {
     const getProductData = async () => {
-      const response = await api.get(
-        `/api/products/productDetails?prodId=${orderId}`
-      );
+      const response = await api.get(`${GET_PRODUCTS_LIST}?prodId=${orderId}`);
       setProdDetail(response?.data);
       console.log(response?.data);
+
+      ReactGA.event({
+        category: "Product",
+        action: "view product",
+        label: response?.data?.title || "unknown product",
+        value: orderId,
+      });
+
+      ReactGA.send({
+        hitType: "pageview",
+        page: window.location.pathname + window.location.search,
+        title: response?.data?.title || "Product Details",
+        location: window.location.href,
+      });
     };
     getProductData();
   }, []);
@@ -60,7 +81,10 @@ const ProductDetails = () => {
             <p>${prodDetail?.price}</p>
           </div>
           <div className="flex flex-row gap-4 w-full">
-            <button className=" flex-grow rounded-lg py-[13px] px-[32px] bg-brandPrimary text-brandDark">
+            <button
+              onClick={handleCart}
+              className=" flex-grow rounded-lg py-[13px] px-[32px] bg-brandPrimary text-brandDark"
+            >
               Add to cart
             </button>
             <button className=" flex-grow rounded-lg py-[13px] px-[32px] text-brandDark border border-brandDark">

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import api from "./services/axios/http";
 import { useDispatch } from "react-redux";
+import ReactGA from "react-ga4";
 import { addFilteredProducts, addProducts } from "./store/products_slice";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Security, LoginCallback } from "@okta/okta-react";
@@ -16,8 +17,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import SignInRedirect from "./components/SignInRedirect";
 import Logout from "./components/Logout";
 
-const GET_PRODUCTS_LIST = process.env.FETCH_ALL_PRODUCTS;
-console.log(GET_PRODUCTS_LIST);
+const GET_PRODUCTS_LIST = process.env.REACT_APP_FETCH_ALL_PRODUCTS;
 
 const oktaAuth = new OktaAuth(octaConfig);
 
@@ -68,11 +68,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  ReactGA.initialize("G-MQGTMTDF4R");
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.get("/api/products");
+      const response = await api.get(GET_PRODUCTS_LIST);
       console.log(response);
       dispatch(addProducts(response.data));
       dispatch(addFilteredProducts(response.data));
