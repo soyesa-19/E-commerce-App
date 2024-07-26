@@ -17,8 +17,9 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
 
   const handleCart = () => {
-    const { id, price, title } = prodDetail;
-    dispatch(addItem({ id, price, title }));
+    console.log(prodDetail?.image);
+    const { id, price, title, image } = prodDetail;
+    dispatch(addItem({ id, price, title, image }));
   };
 
   useEffect(() => {
