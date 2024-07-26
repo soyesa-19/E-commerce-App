@@ -1,5 +1,13 @@
+import { useDispatch } from "react-redux";
+import { removeItem } from "../../store/cart-slice";
+
 const CartList = ({ cartItems }) => {
-  console.log(cartItems);
+  const dispatch = useDispatch();
+
+  const handleRemoveItem = (id) => {
+    dispatch(removeItem({ id }));
+  };
+
   return (
     <div className=" flex flex-col gap-6">
       {cartItems?.map((item) => {
@@ -14,7 +22,10 @@ const CartList = ({ cartItems }) => {
               <p>QTY: {item?.qty}</p>
               <p>{item.price}</p>
               <div>
-                <button className=" border border-brandDark py-2 px-6 rounded-md">
+                <button
+                  onClick={() => handleRemoveItem(item.id)}
+                  className=" border border-brandDark py-2 px-6 rounded-md"
+                >
                   Remove
                 </button>
                 <button className=" border-none text-brandPrimary py-2 px-6">
