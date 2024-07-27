@@ -1,5 +1,5 @@
 import api from "../services/axios/http";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Image } from "antd";
 import { useEffect, useState } from "react";
 import { ShareAltOutlined, HeartOutlined } from "@ant-design/icons";
@@ -13,7 +13,10 @@ const ProductDetails = () => {
   const orderId = urlParams.get("productId");
   const [prodDetail, setProdDetail] = useState();
   const [qty, setQty] = useState(1);
-
+  const inCart = useSelector((store) =>
+    store.cart.items.some((item) => item.id === Number(orderId))
+  );
+  console.log(inCart);
   const dispatch = useDispatch();
 
   const handleCart = () => {
@@ -84,9 +87,10 @@ const ProductDetails = () => {
           <div className="flex flex-row gap-4 w-full">
             <button
               onClick={handleCart}
+              disabled={inCart}
               className=" flex-grow rounded-lg py-[13px] px-[32px] bg-brandPrimary text-brandDark"
             >
-              Add to cart
+              {inCart ? "In cart" : " Add to cart"}
             </button>
             <button className=" flex-grow rounded-lg py-[13px] px-[32px] text-brandDark border border-brandDark">
               Buy Now
