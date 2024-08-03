@@ -8,6 +8,7 @@ import Category from "./Category";
 const Header = () => {
   const { t } = useTranslation("header");
   const totalQty = useSelector((store) => store.cart.totalQty);
+  const wishListQty = useSelector((store) => store.wishList.qty);
 
   const { authState, oktaAuth } = useOktaAuth();
   return (
@@ -23,8 +24,10 @@ const Header = () => {
                 <span>{totalQty}</span>
                 <ShoppingCartIcon />
               </Link>
-              <Link to={""}>
-                <p>Wishlist</p>
+              <Link to={"/wishlist"}>
+                <p>
+                  <span>{wishListQty}</span>Wishlist
+                </p>
               </Link>
               <Link to={"/logout"}>
                 <p>Logout</p>

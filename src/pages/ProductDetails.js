@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ShareAltOutlined, HeartOutlined } from "@ant-design/icons";
 import ReactGA from "react-ga4";
 import { addItem } from "../store/cart-slice";
+import { addWishListItem, removeWishListItem } from "../store/wishList-slice";
 
 const GET_PRODUCTS_LIST = process.env.REACT_APP_PRODUCT_DETAILS;
 
@@ -13,6 +14,9 @@ const ProductDetails = () => {
   const orderId = urlParams.get("productId");
   const [prodDetail, setProdDetail] = useState();
   const [qty, setQty] = useState(1);
+  const inWishList = useSelector((store) =>
+    store.wishList.items.some((item) => item.id === Number(orderId))
+  );
   const inCart = useSelector((store) =>
     store.cart.items.some((item) => item.id === Number(orderId))
   );
@@ -23,6 +27,15 @@ const ProductDetails = () => {
     console.log(prodDetail?.image);
     const { id, price, title, image } = prodDetail;
     dispatch(addItem({ id, price, title, image }));
+  };
+
+  const handleWishList = () => {
+    const { id, price, title, image } = prodDetail;
+    if (inWishList) {
+      dispatch(removeWishListItem({ id }));
+    } else {
+      dispatch(addWishListItem({ id, price, title, image }));
+    }
   };
 
   useEffect(() => {
@@ -95,7 +108,10 @@ const ProductDetails = () => {
             <button className=" flex-grow rounded-lg py-[13px] px-[32px] text-brandDark border border-brandDark">
               Buy Now
             </button>
-            <button className=" rounded-lg py-3 px-auto border border-brandDark w-12 h-12">
+            <button
+              onClick={handleWishList}
+              className=" rounded-lg py-3 px-auto border border-brandDark w-12 h-12"
+            >
               <HeartOutlined />
             </button>
           </div>
