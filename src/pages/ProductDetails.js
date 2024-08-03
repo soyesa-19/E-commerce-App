@@ -110,7 +110,9 @@ const ProductDetails = () => {
             </button>
             <button
               onClick={handleWishList}
-              className=" rounded-lg py-3 px-auto border border-brandDark w-12 h-12"
+              className={`rounded-lg py-3 px-auto border border-brandDark w-12 h-12 ${
+                inWishList ? "bg-brandRed" : ""
+              }`}
             >
               <HeartOutlined />
             </button>
