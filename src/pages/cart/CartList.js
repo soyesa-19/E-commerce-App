@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { removeItem, addItem } from "../../store/cart-slice";
 import { useEffect } from "react";
+import { addWishListItem } from "../../store/wishList-slice";
 
 const CartList = ({ cartItems }) => {
   const dispatch = useDispatch();
+  const wishList = useSelector((store) => store.wishList.items);
 
   const handleRemoveItem = (id) => {
     dispatch(removeItem({ id }));
@@ -11,6 +13,16 @@ const CartList = ({ cartItems }) => {
 
   const handleAddToCart = (id, price, name, image) => {
     dispatch(addItem({ id, price, title: name, image }));
+  };
+
+  const moveToWishList = ({ id, title, price, image }) => {
+    const inWishList = wishList.some((item) => item.id === id);
+    if (inWishList) {
+      alert("item already in wishlist");
+    } else {
+      dispatch(removeItem({ id }));
+      dispatch(addWishListItem({ id, title, price, image }));
+    }
   };
 
   return (
@@ -49,7 +61,10 @@ const CartList = ({ cartItems }) => {
                 >
                   Remove
                 </button>
-                <button className=" border-none text-brandPrimary py-2 px-6">
+                <button
+                  onClick={() => moveToWishList(item)}
+                  className=" border-none text-brandPrimary py-2 px-6"
+                >
                   Move to whishist
                 </button>
               </div>

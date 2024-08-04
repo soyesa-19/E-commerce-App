@@ -17,12 +17,15 @@ const wishListSlice = createSlice({
     removeWishListItem(state, action) {
       state.qty--;
       const deletedItemId = action.payload;
-      console.log(deletedItemId);
-      const re = state.items.filter((item) => item.id !== deletedItemId.id);
-      state.items = re;
+      state.items = state.items.filter((item) => item.id !== deletedItemId.id);
+    },
+    clearWishlist(state, action) {
+      state.qty = 0;
+      state.items = [];
     },
   },
 });
 
-export const { addWishListItem, removeWishListItem } = wishListSlice.actions;
+export const { addWishListItem, removeWishListItem, clearWishlist } =
+  wishListSlice.actions;
 export default wishListSlice.reducer;

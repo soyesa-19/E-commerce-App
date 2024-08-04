@@ -11,6 +11,9 @@ const Header = () => {
   const wishListQty = useSelector((store) => store.wishList.qty);
 
   const { authState, oktaAuth } = useOktaAuth();
+  console.log(
+    localStorage.getItem("okta-token-storage")?.idToken?.claims?.email
+  );
   return (
     <div>
       <div className=" flex flex-row  justify-between items-center h-[88px] px-[108px] ">
@@ -20,6 +23,12 @@ const Header = () => {
         <div className=" flex flex-row  justify-center gap-8">
           {authState?.isAuthenticated ? (
             <>
+              <p>
+                {
+                  JSON.parse(localStorage.getItem("okta-token-storage"))
+                    ?.idToken?.claims?.email
+                }
+              </p>
               <Link to={"/cart"}>
                 <span>{totalQty}</span>
                 <ShoppingCartIcon />
