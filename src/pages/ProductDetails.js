@@ -1,15 +1,19 @@
 import api from "../services/axios/http";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Image } from "antd";
 import { useEffect, useState } from "react";
 import { ShareAltOutlined, HeartOutlined } from "@ant-design/icons";
 import ReactGA from "react-ga4";
+import { useOktaAuth } from "@okta/okta-react";
 import { addItem } from "../store/cart-slice";
 import { addWishListItem, removeWishListItem } from "../store/wishList-slice";
 
 const GET_PRODUCTS_LIST = process.env.REACT_APP_PRODUCT_DETAILS;
 
 const ProductDetails = () => {
+  const { authState } = useOktaAuth();
+  const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get("productId");
   const [prodDetail, setProdDetail] = useState();
@@ -20,7 +24,6 @@ const ProductDetails = () => {
   const inCart = useSelector((store) =>
     store.cart.items.some((item) => item.id === Number(orderId))
   );
-  console.log(inCart);
   const dispatch = useDispatch();
 
   const handleCart = () => {
@@ -38,11 +41,18 @@ const ProductDetails = () => {
     }
   };
 
+  const buyNowHandler = () => {
+    if (authState.isAuthenticated) {
+      navigate("/checkout");
+    } else {
+      navigate("/signin_redirect");
+    }
+  };
+
   useEffect(() => {
     const getProductData = async () => {
       const response = await api.get(`${GET_PRODUCTS_LIST}?prodId=${orderId}`);
       setProdDetail(response?.data);
-      console.log(response?.data);
 
       ReactGA.event({
         category: "Product",
@@ -105,7 +115,10 @@ const ProductDetails = () => {
             >
               {inCart ? "In cart" : " Add to cart"}
             </button>
-            <button className=" flex-grow rounded-lg py-[13px] px-[32px] text-brandDark border border-brandDark">
+            <button
+              onClick={buyNowHandler}
+              className=" flex-grow rounded-lg py-[13px] px-[32px] text-brandDark border border-brandDark"
+            >
               Buy Now
             </button>
             <button
