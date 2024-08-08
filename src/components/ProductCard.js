@@ -1,14 +1,25 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../store/cart-slice";
-import { useNavigate } from "react-router-dom";
 import { HeartOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { addWishListItem, removeWishListItem } from "../store/wishList-slice";
 
 const ProductCard = ({ title, image, description, price, rating, id }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const inWishList = useSelector((store) =>
+    store.wishList.items.some((item) => item.id === id)
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const wishlistHandler = () => {
+    if (inWishList) {
+      dispatch(removeWishListItem({ id }));
+    } else {
+      dispatch(addWishListItem({ id, title, image, price }));
+    }
+  };
 
   const toggleDescription = () => {
     setShowFullDescription((prevState) => !prevState);
@@ -19,16 +30,17 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
   };
 
   return (
-    <div
-      onClick={() => navigate(`/productDetails?productId=${id}`)}
-      className=" w-[392px] h-[526px] flex flex-col gap-6"
-    >
+    <div className=" w-[392px] h-[526px] flex flex-col gap-6">
       <img
+        onClick={() => navigate(`/productDetails?productId=${id}`)}
         src={image}
         className=" w-full h-[390px] shadow-[0px_1px_3px_0px_rgba(166,175,195,0.4)]"
       />
       <div className=" w-full flex flex-row gap-4 justify-between items-start">
-        <div className="flex flex-col gap-2 ">
+        <div
+          className="flex flex-col gap-2 "
+          onClick={() => navigate(`/productDetails?productId=${id}`)}
+        >
           <p className=" text-brandDark text-[24px] leading-[30px] font-semibold">
             {title.substring(0, 22)}...
           </p>
@@ -39,7 +51,10 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
             {description?.substring(0, 40)}...
           </p>
         </div>
-        <button>
+        <button
+          onClick={wishlistHandler}
+          className={`${inWishList ? "bg-brandRed" : ""}`}
+        >
           <HeartOutlined />
         </button>
       </div>

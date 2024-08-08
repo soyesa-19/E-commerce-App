@@ -8,8 +8,12 @@ import Category from "./Category";
 const Header = () => {
   const { t } = useTranslation("header");
   const totalQty = useSelector((store) => store.cart.totalQty);
+  const wishListQty = useSelector((store) => store.wishList.qty);
 
   const { authState, oktaAuth } = useOktaAuth();
+  console.log(
+    localStorage.getItem("okta-token-storage")?.idToken?.claims?.email
+  );
   return (
     <div>
       <div className=" flex flex-row  justify-between items-center h-[88px] px-[108px] ">
@@ -19,12 +23,20 @@ const Header = () => {
         <div className=" flex flex-row  justify-center gap-8">
           {authState?.isAuthenticated ? (
             <>
+              <p>
+                {
+                  JSON.parse(localStorage.getItem("okta-token-storage"))
+                    ?.idToken?.claims?.email
+                }
+              </p>
               <Link to={"/cart"}>
                 <span>{totalQty}</span>
                 <ShoppingCartIcon />
               </Link>
-              <Link to={""}>
-                <p>Wishlist</p>
+              <Link to={"/wishlist"}>
+                <p>
+                  <span>{wishListQty}</span>Wishlist
+                </p>
               </Link>
               <Link to={"/logout"}>
                 <p>Logout</p>

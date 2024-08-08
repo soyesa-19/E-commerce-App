@@ -1,22 +1,23 @@
-import { useEffect } from "react";
-import api from "./services/axios/http";
+import { useEffect, lazy, Suspense } from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ReactGA from "react-ga4";
-import { addFilteredProducts, addProducts } from "./store/products_slice";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Security, LoginCallback } from "@okta/okta-react";
 import { OktaAuth } from "@okta/okta-auth-js";
+import { Security, LoginCallback } from "@okta/okta-react";
+import api from "./services/axios/http";
 import octaConfig from "./services/okta/oktaConfig";
+import { addFilteredProducts, addProducts } from "./store/products_slice";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import RootLayout from "./pages/Root";
-import Cart from "./pages/CartPage";
-import ProductDetails from "./pages/ProductDetails";
 import Chekout from "./pages/Chekout";
 import PrivateRoute from "./components/PrivateRoute";
 import SignInRedirect from "./components/SignInRedirect";
 import Logout from "./components/Logout";
-import CartPage from "./pages/cart/CartPage";
+
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
+const CartPage = lazy(() => import("./pages/cart/CartPage"));
+const WishList = lazy(() => import("./pages/whishlist/WishList"));
 
 const GET_PRODUCTS_LIST = process.env.REACT_APP_FETCH_ALL_PRODUCTS;
 
@@ -37,13 +38,32 @@ const router = createBrowserRouter([
       },
       {
         path: "/productDetails",
-        element: <ProductDetails />,
+        element: (
+          <Suspense fallback={<p>loading ...</p>}>
+            <ProductDetails />
+          </Suspense>
+        ),
       },
       {
         path: "/cart",
-        element: <CartPage />,
+        element: (
+          <PrivateRoute>
+            <Suspense fallback={<p>loading ...</p>}>
+              <CartPage />
+            </Suspense>
+          </PrivateRoute>
+        ),
       },
-
+      {
+        path: "/wishlist",
+        element: (
+          <PrivateRoute>
+            <Suspense fallback={<p>loading ...</p>}>
+              <WishList />
+            </Suspense>
+          </PrivateRoute>
+        ),
+      },
       {
         path: "/checkout",
         element: (
