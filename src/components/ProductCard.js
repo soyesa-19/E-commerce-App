@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../store/cart-slice";
-import { useNavigate } from "react-router-dom";
 import { HeartOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import useSelection from "antd/es/table/hooks/useSelection";
+import { useNavigate } from "react-router-dom";
 import { addWishListItem, removeWishListItem } from "../store/wishList-slice";
 
 const ProductCard = ({ title, image, description, price, rating, id }) => {
