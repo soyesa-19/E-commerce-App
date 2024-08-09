@@ -1,4 +1,8 @@
+import { useSelector } from "react-redux";
+import OrderSummary from "../../components/OrderSummary";
+
 const Chekout = () => {
+  const { totalPrice, items } = useSelector((store) => store.buyNow);
   return (
     <div className="flex flex-row justify-between mx-auto gap-7">
       {/* first block */}
@@ -18,12 +22,7 @@ const Chekout = () => {
       </div>
       {/* secound block */}
       <div className=" w-[602px]">
-        <div>
-          <p>
-            Check2huh deuhduehdued udeudg yegdyegd yegdyegy gfyfgyr
-            gfyrgfyrgfyrgfyr gfyrgf ygr yfrf
-          </p>
-        </div>
+        <OrderSummary totalPrice={totalPrice} totalQty={items.length} />
       </div>
     </div>
   );

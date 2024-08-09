@@ -8,6 +8,7 @@ import ReactGA from "react-ga4";
 import { useOktaAuth } from "@okta/okta-react";
 import { addItem } from "../store/cart-slice";
 import { addWishListItem, removeWishListItem } from "../store/wishList-slice";
+import { addBuyNowItems } from "../store/buyNow-slice";
 
 const GET_PRODUCTS_LIST = process.env.REACT_APP_PRODUCT_DETAILS;
 
@@ -43,6 +44,8 @@ const ProductDetails = () => {
 
   const buyNowHandler = () => {
     if (authState.isAuthenticated) {
+      console.log(prodDetail);
+      dispatch(addBuyNowItems([prodDetail]));
       navigate("/checkout");
     } else {
       navigate("/signin_redirect");

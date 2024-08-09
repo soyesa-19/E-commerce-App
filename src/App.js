@@ -10,7 +10,6 @@ import { addFilteredProducts, addProducts } from "./store/products_slice";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import RootLayout from "./pages/Root";
-import Chekout from "./pages/Chekout";
 import PrivateRoute from "./components/PrivateRoute";
 import SignInRedirect from "./components/SignInRedirect";
 import Logout from "./components/Logout";
@@ -18,6 +17,7 @@ import Logout from "./components/Logout";
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const CartPage = lazy(() => import("./pages/cart/CartPage"));
 const WishList = lazy(() => import("./pages/whishlist/WishList"));
+const Checkout = lazy(() => import("./pages/checkout/Chekout"));
 
 const GET_PRODUCTS_LIST = process.env.REACT_APP_FETCH_ALL_PRODUCTS;
 
@@ -68,7 +68,9 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: (
           <PrivateRoute>
-            <Chekout />
+            <Suspense fallback={<p>Loading ...</p>}>
+              <Checkout />
+            </Suspense>
           </PrivateRoute>
         ),
       },
