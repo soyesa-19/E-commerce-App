@@ -1,12 +1,16 @@
 import { useSelector } from "react-redux";
 import { StepHeader } from "./Line";
 
-const ProductDetails = () => {
+const ProductDetails = ({ currentStep }) => {
   const prodDetails = useSelector((store) => store.buyNow.items);
   console.log(prodDetails);
   return (
     <div>
-      <StepHeader step={3} title={"Items and Delivery"} />
+      <StepHeader
+        step={3}
+        currentStep={currentStep}
+        title={"Items and Delivery"}
+      />
       {prodDetails?.map(({ name, price, image }) => {
         return (
           <div className="flex flex-row gap-10 pl-5 ml-10 my-4 items-center">

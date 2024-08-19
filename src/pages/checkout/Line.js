@@ -3,8 +3,12 @@ export const StepHeader = ({ step, title, currentStep }) => {
     <div className="flex flex-row items-center gap-2">
       <div
         className={`h-[40px] w-[40px] rounded-full ${
-          step < currentStep ? "bg-brandPrimary" : ""
-        } border border-brandPrimary flex items-center`}
+          step < currentStep
+            ? "bg-brandPrimary "
+            : step === currentStep
+            ? "border-brandPrimary"
+            : "border-brandStroke"
+        } border  flex items-center`}
       >
         <span className={`mx-auto ${step < currentStep && "text-white"}`}>
           {step}
@@ -18,9 +22,9 @@ export const StepHeader = ({ step, title, currentStep }) => {
 export const Line = ({ step, currentStep }) => {
   return (
     <div
-      className={` ${
-        step < currentStep ? "flex-y-grow" : " invisible"
-      }  border border-brandPrimary`}
+      className={` flex-y-grow  border ${
+        step < currentStep ? "border-brandPrimary" : "border-brandStroke"
+      }`}
     ></div>
   );
 };
