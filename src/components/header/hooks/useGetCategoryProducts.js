@@ -11,7 +11,7 @@ export const useGetCategoryProducts = (category, isEnabled) => {
   };
 
   return useQuery({
-    queryKey: ["category", "products"],
+    queryKey: [category],
     queryFn: getProducts,
     enabled: isEnabled,
     retry: false,

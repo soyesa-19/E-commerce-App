@@ -14,7 +14,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import SignInRedirect from "./components/SignInRedirect";
 import Logout from "./components/Logout";
 
-const ProductDetails = lazy(() => import("./pages/ProductDetails"));
+const ProductDetails = lazy(() =>
+  import("./pages/productDetail/ProductDetails")
+);
 const CartPage = lazy(() => import("./pages/cart/CartPage"));
 const WishList = lazy(() => import("./pages/whishlist/WishList"));
 const Checkout = lazy(() => import("./pages/checkout/Chekout"));

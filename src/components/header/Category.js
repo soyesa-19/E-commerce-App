@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Spin } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import { useGetCategories } from "./hooks/useGetCategories";
 import { useGetCategoryProducts } from "./hooks/useGetCategoryProducts";
-import { DownOutlined } from "@ant-design/icons";
 
 const Category = () => {
-  const { data: categories, isLoading, error } = useGetCategories();
-  const [categoryProducts, setCategoryProducts] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
-  const {
+  const { data: categories, isLoading, error } = useGetCategories();
+  let {
     data: catProd,
     isLoading: loading,
     error: err,
   } = useGetCategoryProducts(hoveredCategory, !!hoveredCategory);
-  console.log(catProd);
+  const navigate = useNavigate();
 
   const handleHover = (category) => {
     setHoveredCategory(category);
   };
 
   const handleLeave = () => {
-    setCategoryProducts([]);
     setHoveredCategory(null);
   };
 
@@ -36,20 +36,33 @@ const Category = () => {
               onMouseEnter={() => handleHover(category)}
               onMouseLeave={handleLeave}
             >
-              <button>{category}</button>
-              <DownOutlined className="text-brandTextPrimary" />
+              <button className=" py-2 text-brandDark text-base font-normal">
+                {category}
+              </button>
+              <DownOutlined className=" text-brandStroke" />
               {hoveredCategory === category && hoveredCategory && (
-                <div className=" absolute top-full left-0 p-4 w-[400px] bg-white border border-gray-200 shadow-lg  z-50 ">
-                  <ul>
-                    {catProd.map((product) => (
-                      <li
-                        key={product.id}
-                        className="py-1 px-2 hover:bg-gray-100"
-                      >
-                        <button>{product.title}</button>
-                      </li>
-                    ))}
-                  </ul>
+                <div className=" absolute -left-10 flex items-center justify-center p-4 w-[400px] min-h-[150px] bg-white border-2 border-brandStroke rounded-lg shadow-brandShadow z-10 before:content-[''] before:absolute before:-top-4 before:left-12 before:border-8 before:border-x-transparent before:border-t-transparent before:border-b-brandStroke after:content-[''] after:absolute after:-top-3  after:left-12 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-white">
+                  {loading ? (
+                    <Spin size="small" className="" />
+                  ) : (
+                    <ul>
+                      {catProd?.map(({ id, title }) => (
+                        <li
+                          key={id}
+                          className="py-3 px-2 hover:bg-brandGray block border border-solid border-x-0 border-t-0 border-b-brandStroke  "
+                        >
+                          <button
+                            onClick={() =>
+                              navigate(`/productDetails?productId=${id}`)
+                            }
+                            className=" text-start"
+                          >
+                            {title}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               )}
             </div>
