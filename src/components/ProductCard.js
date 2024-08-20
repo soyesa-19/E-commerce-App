@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../store/cart-slice";
-import { HeartOutlined } from "@ant-design/icons";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { addWishListItem, removeWishListItem } from "../store/wishList-slice";
 
@@ -51,12 +51,15 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
             {description?.substring(0, 40)}...
           </p>
         </div>
-        <button
-          onClick={wishlistHandler}
-          className={`${inWishList ? "bg-brandRed" : ""}`}
-        >
-          <HeartOutlined />
-        </button>
+
+        {inWishList ? (
+          <HeartFilled
+            onClick={wishlistHandler}
+            className="text-brandRed text-2xl"
+          />
+        ) : (
+          <HeartOutlined onClick={wishlistHandler} className=" text-2xl" />
+        )}
       </div>
     </div>
   );
