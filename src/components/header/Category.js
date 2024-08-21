@@ -32,7 +32,7 @@ const Category = () => {
         return (
           <>
             <div
-              className="relative z-40"
+              className="relative"
               onMouseEnter={() => handleHover(category)}
               onMouseLeave={handleLeave}
             >

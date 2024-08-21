@@ -1,5 +1,5 @@
 import ProductDetails from "./ProductDetails";
-import AddressDetails from "./AddressDetails";
+import AddressDetails from "./component/address/AddressDetails";
 import PaymentDetails from "./PaymentDetails";
 import { useState } from "react";
 
