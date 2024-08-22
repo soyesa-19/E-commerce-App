@@ -116,6 +116,7 @@ const AddressDetails = ({ currentStep, onProceed }) => {
         <AddressForm
           setShowFormModal={setShowFormModal}
           setSelectedAddress={setSelectedAddress}
+          setAdressList={setAdressList}
         />
       )}
     </div>

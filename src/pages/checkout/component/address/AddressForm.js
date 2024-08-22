@@ -2,7 +2,11 @@ import { useState } from "react";
 import Backdrop from "../HOC/Backdrop";
 import { ConsoleSqlOutlined } from "@ant-design/icons";
 
-const AddressForm = ({ setShowFormModal, setSelectedAddress }) => {
+const AddressForm = ({
+  setShowFormModal,
+  setSelectedAddress,
+  setAdressList,
+}) => {
   const [formData, setFormData] = useState({
     name: "",
     type: "",
@@ -27,7 +31,7 @@ const AddressForm = ({ setShowFormModal, setSelectedAddress }) => {
     });
     localStorage.setItem("addresses", JSON.stringify(prev));
     setSelectedAddress(formData);
-    console.log(formData);
+    setAdressList(prev);
   };
   return (
     <Backdrop setShowModal={setShowFormModal}>

@@ -4,9 +4,16 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useOktaAuth } from "@okta/okta-react";
 import Category from "./Category";
+import {
+  HeartOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { useState } from "react";
 
 const Header = () => {
   const { t } = useTranslation("header");
+  const [showDropDown, setShowDropDown] = useState(false);
   const totalQty = useSelector((store) => store.cart.totalQty);
   const wishListQty = useSelector((store) => store.wishList.qty);
 
@@ -20,7 +27,7 @@ const Header = () => {
         <Link to={"/"}>
           <h4>{t("Welcome")}</h4>
         </Link>
-        <div className=" flex flex-row  justify-center gap-8">
+        <div className=" flex flex-row  justify-center items-center gap-8">
           {authState?.isAuthenticated ? (
             <>
               <p>
@@ -30,22 +37,49 @@ const Header = () => {
                 }
               </p>
               <Link to={"/cart"}>
-                <span>{totalQty}</span>
-                <ShoppingCartIcon />
+                <div className="relative">
+                  <ShoppingCartOutlined className=" text-2xl" />
+                  {totalQty > 0 && (
+                    <span className=" absolute -top-2 -right-[10px] text-brandWhite text-xs font-normal bg-brandPrimary h-4 w-4 rounded-full flex items-center justify-center">
+                      {totalQty}
+                    </span>
+                  )}
+                </div>
               </Link>
               <Link to={"/wishlist"}>
-                <p>
-                  <span>{wishListQty}</span>Wishlist
-                </p>
+                <div className=" relative">
+                  <HeartOutlined className=" text-2xl" />
+                  {wishListQty > 0 && (
+                    <span className=" absolute -top-2 -right-[10px] text-brandWhite text-xs font-normal bg-brandPrimary h-4 w-4 rounded-full flex items-center justify-center">
+                      {wishListQty}
+                    </span>
+                  )}
+                </div>
               </Link>
               <Link to={"/logout"}>
                 <p>Logout</p>
               </Link>
             </>
           ) : (
-            <Link to={"/signIn_redirect"}>
-              <p>LogIn</p>
-            </Link>
+            <div
+              className="relative"
+              onMouseEnter={() => setShowDropDown(true)}
+              onMouseLeave={() => setShowDropDown(false)}
+            >
+              <UserOutlined className=" text-2xl p-2" />
+              {showDropDown && (
+                <div className=" absolute -left-2 border border-brandStroke rounded-lg flex flex-col gap-2 items-center justify-center before:content-[''] before:absolute before:-top-4 before:left-5 before:border-8 before:border-x-transparent before:border-t-transparent before:border-b-brandStroke ">
+                  <Link to={"/signIn_redirect"}>
+                    <button className=" bg-brandPrimary px-5 py-2 rounded-lg">
+                      Login
+                    </button>
+                  </Link>
+                  <Link to={"/signup_user"}>
+                    <button>SignUp</button>
+                  </Link>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
