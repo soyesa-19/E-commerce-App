@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useOktaAuth } from "@okta/okta-react";
 import { Image } from "antd";
 import { ShareAltOutlined } from "@ant-design/icons";
-import { addItem } from "../../store/cart-slice";
+import { sendCartItem } from "../../store/cart-slice";
 import {
   addWishListItem,
   removeWishListItem,
@@ -32,8 +32,7 @@ const ProductDetails = () => {
 
   const handleCart = () => {
     console.log(prodDetail?.image);
-    const { id, price, title, image } = prodDetail;
-    dispatch(addItem({ id, price, title, image }));
+    dispatch(sendCartItem(prodDetail));
   };
 
   const handleWishList = () => {

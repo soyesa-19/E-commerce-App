@@ -18,9 +18,9 @@ const CartPage = () => {
     dispatch(addBuyNowItems(cartItems));
     navigate("/checkout");
   };
-  // useEffect(() => {
-  //   dispatch(fetchCartItems());
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchCartItems());
+  }, []);
 
   return (
     <div className="flex flex-row gap-10 justify-center items-start my-7">
