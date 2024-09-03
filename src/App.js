@@ -13,6 +13,7 @@ import RootLayout from "./pages/Root";
 import PrivateRoute from "./components/PrivateRoute";
 import SignInRedirect from "./components/SignInRedirect";
 import Logout from "./components/Logout";
+import SignUp from "./pages/signUp/SignUp";
 
 const ProductDetails = lazy(() =>
   import("./pages/productDetail/ProductDetails")
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: "/logout",
         element: <Logout />,
+      },
+      {
+        path: "/signup_user",
+        element: <SignUp />,
       },
     ],
   },

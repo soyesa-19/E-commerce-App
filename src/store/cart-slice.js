@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = JSON.parse(localStorage.getItem("cart")) || {
   items: [],
@@ -11,8 +12,14 @@ const cartItem = createSlice({
   initialState,
   reducers: {
     updatecart(state, action) {
+      let tPrice = 0;
+      console.log(action.payload);
       state.items = action.payload.items;
       state.totalQty = action.payload.totalQty;
+      action.payload.items.forEach((item) => {
+        tPrice += item.price;
+      });
+      state.totalPrice = tPrice;
     },
     addItem(state, action) {
       state.totalQty++;
@@ -52,6 +59,30 @@ const cartItem = createSlice({
     },
   },
 });
+
+export const fetchCartItems = () => {
+  return async (dispatch) => {
+    const response = await fetch("http://localhost:5000/api/cartProds");
+    const cartData = await response.json();
+    console.log(cartData);
+    dispatch(updatecart({ items: cartData, totalQty: cartData.length }));
+  };
+};
+
+export const sendCartItem = (prodDetail) => {
+  console.log(prodDetail);
+  return async (dispatch) => {
+    try {
+      await axios.post("http://localhost:5000/api/cartProds", {
+        item: prodDetail,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    const { id, price, title, image } = prodDetail;
+    dispatch(addItem({ id, price, title, image }));
+  };
+};
 
 export const { addItem, removeItem, updatecart } = cartItem.actions;
 export default cartItem.reducer;

@@ -33,7 +33,7 @@ const CartList = ({ cartItems }) => {
             <img src={item.image} className="w-[312px] h-[312px]" />
             <div className="flex flex-col gap-3">
               <p className=" text-brandDark font-semibold text-[18px] leading-[26px]">
-                {item.name}
+                {item.title}
               </p>
               <p>in stock</p>
               <p>QTY: {item?.qty}</p>
