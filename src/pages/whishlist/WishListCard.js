@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { removeWishListItem } from "../../store/wishList-slice";
-import { DeleteOutlined, ShareAltOutlined } from "@ant-design/icons";
+import { ShareAltOutlined } from "@ant-design/icons";
 import { addItem } from "../../store/cart-slice";
 import Delete from "../../assets/images/delete.jpeg";
-import Heart from "../../assets/images/heart.jpeg";
 
 const WishListCard = ({ item }) => {
   const { id, price, title, image } = item;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useOktaAuth } from "@okta/okta-react";
 import api from "../../services/axios/http";
+import Input from "../../components/InputContainer/Input";
 
 const REACT_APP_OCTA_API_TOKEN = process.env.REACT_APP_OCTA_API_TOKEN;
 
@@ -10,6 +11,7 @@ const SignUpForm = () => {
     fname: "",
     lname: "",
     email: "",
+    login: "",
     password: "",
     mobile: "",
   });
@@ -20,65 +22,97 @@ const SignUpForm = () => {
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(oktaAuth.options.issuer);
+    console.log(formData);
+    const { fname, lname, email, password, mobile } = formData;
+    console.log(password);
+    try {
+      const response = await api.post(
+        "/signup",
+        {
+          profile: {
+            firstName: fname,
+            lastName: lname,
+            email,
+            login: email, // The login is typically the email address
+            mobilePhone: mobile, // assuming mobilePhone attribute is enabled in Okta
+          },
+          credentials: {
+            password: {
+              value: password,
+            },
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        await oktaAuth.signInWithRedirect({
+          sessionToken: response?.data?.sessionToken,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <label htmlFor="fname">Full Name</label>
-        <input
-          type="text"
-          name="fname"
-          placeholder="Enter name"
-          className=" border border-brandStroke rounded-lg py-2 px-3 "
-          value={formData.fname}
-          onChange={(e) => onChangeHandler(e, "fname")}
-        />
-      </div>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="lname">Full Name</label>
-        <input
-          type="text"
-          name="lname"
-          placeholder="Enter name"
-          className=" border border-brandStroke rounded-lg py-2 px-3 "
-          value={formData.name}
-          onChange={(e) => onChangeHandler(e, "lname")}
-        />
-      </div>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          placeholder="Enter email"
-          className=" border border-brandStroke rounded-lg py-2 px-3 "
-          value={formData.email}
-          onChange={(e) => onChangeHandler(e, "email")}
-        />
-      </div>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="password">Password</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter Password"
-          className=" border border-brandStroke rounded-lg py-2 px-3 "
-          value={formData.password}
-          onChange={(e) => onChangeHandler(e, "password")}
-        />
-      </div>
-      <div className="flex flex-col gap-1">
-        <label htmlFor="mobile">Mobile</label>
-        <input
-          type="number"
-          name="mobile"
-          placeholder="Enter Number"
-          className=" border border-brandStroke rounded-lg py-2 px-3 "
-          value={formData.mobile}
-          onChange={(e) => onChangeHandler(e, "mobile")}
-        />
-      </div>
+      <Input
+        containerClass="flex flex-col gap-1"
+        type="text"
+        name="fname"
+        placeholder="Enter name"
+        label="First Name"
+        inputClass=" border border-brandStroke rounded-lg py-2 px-3 "
+        value={formData.fname}
+        onChange={(e) => onChangeHandler(e, "fname")}
+      />
+      <Input
+        containerClass="flex flex-col gap-1"
+        type="text"
+        name="lname"
+        placeholder="Last Name"
+        label="Last Name"
+        inputClass=" border border-brandStroke rounded-lg py-2 px-3 "
+        value={formData.lname}
+        onChange={(e) => onChangeHandler(e, "lname")}
+      />
+
+      <Input
+        containerClass="flex flex-col gap-1"
+        type="text"
+        name="email"
+        placeholder="Enter email"
+        label="Email"
+        inputClass=" border border-brandStroke rounded-lg py-2 px-3 "
+        value={formData.email}
+        onChange={(e) => onChangeHandler(e, "email")}
+      />
+
+      <Input
+        containerClass="flex flex-col gap-1"
+        type="password"
+        name="password"
+        placeholder="Enter password"
+        label="Password"
+        inputClass=" border border-brandStroke rounded-lg py-2 px-3 "
+        value={formData.password}
+        onChange={(e) => onChangeHandler(e, "password")}
+      />
+
+      <Input
+        containerClass="flex flex-col gap-1"
+        type="number"
+        name="mobile"
+        placeholder="Enter number"
+        label="Mobile"
+        inputClass=" border border-brandStroke rounded-lg py-2 px-3 "
+        value={formData.mobile}
+        onChange={(e) => onChangeHandler(e, "mobile")}
+      />
+
       <button className="bg-brandPrimary py-[13px] px-8 rounded-lg">
         Sign Up
       </button>

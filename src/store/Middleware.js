@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const localStorageMiddleware = (store) => (next) => (action) => {
   const result = next(action);
 
