@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../services/axios/http";
+
+const REACT_APP_ADDITEM_TO_CART = process.env.REACT_APP_ADDITEM_TO_CART;
+const REACT_APP_REMOVEITEM_FROM_CART =
+  process.env.REACT_APP_REMOVEITEM_FROM_CART;
 
 const initialState = JSON.parse(localStorage.getItem("cart")) || {
   items: [],
@@ -63,12 +67,11 @@ const cartItem = createSlice({
 
 export const fetchCartItems = () => {
   return async (dispatch) => {
-    const response = await fetch("http://localhost:5000/api/cartProds");
-    const cartData = await response.json();
+    const cartData = await api.get(REACT_APP_ADDITEM_TO_CART);
     console.log(cartData);
     let cartLength = 0;
-    cartData.forEach((item) => (cartLength += item.qty));
-    dispatch(updatecart({ items: cartData, totalQty: cartLength }));
+    cartData?.data?.forEach((item) => (cartLength += item.qty));
+    dispatch(updatecart({ items: cartData?.data, totalQty: cartLength }));
   };
 };
 
@@ -78,7 +81,7 @@ export const sendCartItem = (prodDetail) => {
 
   return async (dispatch) => {
     try {
-      await axios.post("http://localhost:5000/api/cartProds", {
+      await api.post(REACT_APP_ADDITEM_TO_CART, {
         item: prodDetail,
       });
     } catch (error) {
@@ -91,10 +94,9 @@ export const sendCartItem = (prodDetail) => {
 export const removeItemFromCart = (itemId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/cartProds/delete",
-        { id: itemId }
-      );
+      const response = await api.post(REACT_APP_REMOVEITEM_FROM_CART, {
+        id: itemId,
+      });
       console.log(response);
       if (response.status === 201) {
         dispatch(removeItem(itemId));

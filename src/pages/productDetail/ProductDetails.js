@@ -8,6 +8,8 @@ import { sendCartItem } from "../../store/cart-slice";
 import {
   addWishListItem,
   removeWishListItem,
+  sendWhishlistItem,
+  deleteWhishlistItem,
 } from "../../store/wishList-slice";
 import { addBuyNowItems } from "../../store/buyNow-slice";
 import useGetProductDetails from "./useGetProductDetails";
@@ -35,11 +37,11 @@ const ProductDetails = () => {
   };
 
   const handleWishList = () => {
-    const { id, price, title, image } = prodDetail;
+    const { id } = prodDetail;
     if (inWishList) {
-      dispatch(removeWishListItem({ id }));
+      dispatch(deleteWhishlistItem(id));
     } else {
-      dispatch(addWishListItem({ id, price, title, image }));
+      dispatch(sendWhishlistItem(prodDetail));
     }
   };
 

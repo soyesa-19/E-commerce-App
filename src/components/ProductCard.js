@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../store/cart-slice";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { addWishListItem, removeWishListItem } from "../store/wishList-slice";
+import {
+  sendWhishlistItem,
+  deleteWhishlistItem,
+} from "../store/wishList-slice";
 
 const ProductCard = ({ title, image, description, price, rating, id }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -15,9 +18,9 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
 
   const wishlistHandler = () => {
     if (inWishList) {
-      dispatch(removeWishListItem({ id }));
+      dispatch(deleteWhishlistItem(id));
     } else {
-      dispatch(addWishListItem({ id, title, image, price }));
+      dispatch(sendWhishlistItem({ id, title, image, price }));
     }
   };
 

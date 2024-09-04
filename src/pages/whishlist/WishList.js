@@ -1,13 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import WishListCard from "./WishListCard";
-import { clearWishlist } from "../../store/wishList-slice";
+import {
+  clearWishlist,
+  fetchWishlistItems,
+  deleteWhishlistItem,
+} from "../../store/wishList-slice";
+import { useEffect } from "react";
 
 const WishList = () => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((store) => store.wishList.items);
 
+  useEffect(() => {
+    dispatch(fetchWishlistItems());
+  }, []);
+
   const clearWishlistItems = () => {
-    dispatch(clearWishlist());
+    dispatch(deleteWhishlistItem());
   };
   return (
     <div className="px-[108px]">

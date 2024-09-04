@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { removeWishListItem } from "../../store/wishList-slice";
+import {
+  removeWishListItem,
+  deleteWhishlistItem,
+} from "../../store/wishList-slice";
 import { ShareAltOutlined } from "@ant-design/icons";
 import { addItem } from "../../store/cart-slice";
 import Delete from "../../assets/images/delete.jpeg";
@@ -12,7 +15,7 @@ const WishListCard = ({ item }) => {
   );
 
   const deleteWishListItem = () => {
-    dispatch(removeWishListItem({ id }));
+    dispatch(deleteWhishlistItem(id));
   };
 
   const moveToCart = () => {
