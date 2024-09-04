@@ -31,7 +31,6 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
 
   const handleCart = () => {
-    console.log(prodDetail?.image);
     dispatch(sendCartItem(prodDetail));
   };
 

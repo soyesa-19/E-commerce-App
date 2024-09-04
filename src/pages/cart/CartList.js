@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { removeItem, addItem } from "../../store/cart-slice";
-import { useEffect } from "react";
+import {
+  removeItem,
+  sendCartItem,
+  removeItemFromCart,
+} from "../../store/cart-slice";
 import { addWishListItem } from "../../store/wishList-slice";
 
 const CartList = ({ cartItems }) => {
@@ -8,11 +11,11 @@ const CartList = ({ cartItems }) => {
   const wishList = useSelector((store) => store.wishList.items);
 
   const handleRemoveItem = (id) => {
-    dispatch(removeItem({ id }));
+    dispatch(removeItemFromCart(id));
   };
 
-  const handleAddToCart = (id, price, name, image) => {
-    dispatch(addItem({ id, price, title: name, image }));
+  const handleAddToCart = (prodDetail) => {
+    dispatch(sendCartItem(prodDetail));
   };
 
   const moveToWishList = ({ id, title, price, image }) => {
@@ -29,7 +32,7 @@ const CartList = ({ cartItems }) => {
     <div className=" flex flex-col gap-6">
       {cartItems?.map((item) => {
         return (
-          <div className="flex flex-row gap-5 items-center pr-8">
+          <div key={item.id} className="flex flex-row gap-5 items-center pr-8">
             <img src={item.image} className="w-[312px] h-[312px]" />
             <div className="flex flex-col gap-3">
               <p className=" text-brandDark font-semibold text-[18px] leading-[26px]">
@@ -39,9 +42,7 @@ const CartList = ({ cartItems }) => {
               <p>QTY: {item?.qty}</p>
               <div>
                 <button
-                  onClick={() =>
-                    handleAddToCart(item.id, item.price, item.name, item.image)
-                  }
+                  onClick={() => handleAddToCart(item)}
                   className="rounded-l-md rounded-r-none border border-brandStroke w-8 h-8"
                 >
                   +
@@ -53,7 +54,7 @@ const CartList = ({ cartItems }) => {
                   -
                 </button>
               </div>
-              <p>${item.price}</p>
+              <p>${item.totalPrice}</p>
               <div>
                 <button
                   onClick={() => handleRemoveItem(item.id)}
