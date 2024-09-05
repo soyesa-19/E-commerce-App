@@ -81,13 +81,15 @@ export const sendCartItem = (prodDetail) => {
 
   return async (dispatch) => {
     try {
-      await api.post(REACT_APP_ADDITEM_TO_CART, {
+      const response = await api.post(REACT_APP_ADDITEM_TO_CART, {
         item: prodDetail,
       });
+      if (response.status === 201) {
+        dispatch(addItem({ id, totalPrice, title, image, price }));
+      }
     } catch (error) {
       console.log(error);
     }
-    dispatch(addItem({ id, totalPrice, title, image, price }));
   };
 };
 

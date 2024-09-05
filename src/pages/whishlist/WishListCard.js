@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  removeWishListItem,
   deleteWhishlistItem,
+  sendWhishlistItem,
 } from "../../store/wishList-slice";
 import { ShareAltOutlined } from "@ant-design/icons";
-import { addItem } from "../../store/cart-slice";
 import Delete from "../../assets/images/delete.jpeg";
+import { sendCartItem } from "../../store/cart-slice";
 
 const WishListCard = ({ item }) => {
+  console.log(item);
   const { id, price, title, image } = item;
   const dispatch = useDispatch();
   const inCart = useSelector((store) =>
@@ -22,8 +23,8 @@ const WishListCard = ({ item }) => {
     if (inCart) {
       alert("Item already present in cart");
     } else {
-      dispatch(removeWishListItem({ id }));
-      dispatch(addItem({ id, price, title, image }));
+      dispatch(deleteWhishlistItem(id));
+      dispatch(sendCartItem(item));
     }
   };
 

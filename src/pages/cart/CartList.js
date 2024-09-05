@@ -4,7 +4,7 @@ import {
   sendCartItem,
   removeItemFromCart,
 } from "../../store/cart-slice";
-import { addWishListItem } from "../../store/wishList-slice";
+import { addWishListItem, sendWhishlistItem } from "../../store/wishList-slice";
 
 const CartList = ({ cartItems }) => {
   const dispatch = useDispatch();
@@ -23,8 +23,8 @@ const CartList = ({ cartItems }) => {
     if (inWishList) {
       alert("item already in wishlist");
     } else {
-      dispatch(removeItem({ id }));
-      dispatch(addWishListItem({ id, title, price, image }));
+      dispatch(removeItemFromCart(id));
+      dispatch(sendWhishlistItem({ id, title, price, image }));
     }
   };
 
