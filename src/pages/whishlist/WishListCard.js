@@ -16,14 +16,14 @@ const WishListCard = ({ item }) => {
   );
 
   const deleteWishListItem = () => {
-    dispatch(deleteWhishlistItem(id));
+    dispatch(deleteWhishlistItem(item));
   };
 
   const moveToCart = () => {
     if (inCart) {
       alert("Item already present in cart");
     } else {
-      dispatch(deleteWhishlistItem(id));
+      dispatch(deleteWhishlistItem(item));
       dispatch(sendCartItem(item));
     }
   };

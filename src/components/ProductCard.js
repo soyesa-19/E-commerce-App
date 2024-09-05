@@ -18,7 +18,7 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
 
   const wishlistHandler = () => {
     if (inWishList) {
-      dispatch(deleteWhishlistItem(id));
+      dispatch(deleteWhishlistItem({ id, title, image, price }));
     } else {
       dispatch(sendWhishlistItem({ id, title, image, price }));
     }

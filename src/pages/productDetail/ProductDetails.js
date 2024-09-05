@@ -39,7 +39,7 @@ const ProductDetails = () => {
   const handleWishList = () => {
     const { id } = prodDetail;
     if (inWishList) {
-      dispatch(deleteWhishlistItem(id));
+      dispatch(deleteWhishlistItem(prodDetail));
     } else {
       dispatch(sendWhishlistItem(prodDetail));
     }

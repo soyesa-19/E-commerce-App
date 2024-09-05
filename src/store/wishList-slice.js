@@ -75,19 +75,24 @@ export const sendWhishlistItem = (item) => {
   };
 };
 
-export const deleteWhishlistItem = (id) => {
+export const deleteWhishlistItem = ({ id, title, image, price }) => {
   return async (dispatch) => {
+    if (id) {
+      dispatch(removeWishListItem(id));
+    } else {
+      dispatch(clearWishlist());
+    }
     try {
       const response = await api.post("/api/whishlist/delete", { id });
 
       if (response.status === 201) {
-        if (id) {
-          dispatch(removeWishListItem(id));
-        } else {
-          dispatch(clearWishlist());
-        }
+        console.log("Backend updated successfully");
       }
     } catch (error) {
+      if (id) {
+        dispatch(addWishListItem({ id, title, image, price }));
+        alert("item cannot be removed from whishlist");
+      }
       console.log(error);
     }
   };
