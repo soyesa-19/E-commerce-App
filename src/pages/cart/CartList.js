@@ -10,20 +10,20 @@ const CartList = ({ cartItems }) => {
   const dispatch = useDispatch();
   const wishList = useSelector((store) => store.wishList.items);
 
-  const handleRemoveItem = (id) => {
-    dispatch(removeItemFromCart(id));
+  const handleRemoveItem = (item) => {
+    dispatch(removeItemFromCart(item));
   };
 
   const handleAddToCart = (prodDetail) => {
     dispatch(sendCartItem(prodDetail));
   };
 
-  const moveToWishList = ({ id, title, price, image }) => {
+  const moveToWishList = ({ id, title, price, image, totalPrice }) => {
     const inWishList = wishList.some((item) => item.id === id);
     if (inWishList) {
       alert("item already in wishlist");
     } else {
-      dispatch(removeItemFromCart(id));
+      dispatch(removeItemFromCart({ id, title, price, image, totalPrice }));
       dispatch(sendWhishlistItem({ id, title, price, image }));
     }
   };
@@ -48,7 +48,7 @@ const CartList = ({ cartItems }) => {
                   +
                 </button>
                 <button
-                  onClick={() => handleRemoveItem(item.id)}
+                  onClick={() => handleRemoveItem(item)}
                   className="rounded-r-md rounded-l-none border border-brandStroke w-8 h-8"
                 >
                   -
@@ -57,7 +57,7 @@ const CartList = ({ cartItems }) => {
               <p>${item.totalPrice}</p>
               <div>
                 <button
-                  onClick={() => handleRemoveItem(item.id)}
+                  onClick={() => handleRemoveItem(item)}
                   className=" border border-brandDark py-2 px-6 rounded-md"
                 >
                   Remove

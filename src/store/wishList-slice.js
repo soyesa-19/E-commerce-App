@@ -56,14 +56,20 @@ export const fetchWishlistItems = () => {
 
 export const sendWhishlistItem = (item) => {
   console.log(item);
+
   return async (dispatch) => {
+    const { id } = item;
+    dispatch(addWishListItem(item));
+    console.log("item added to store cart");
     try {
       const response = await api.post("/api/whishlist", { item });
 
       if (response.status === 201) {
-        dispatch(addWishListItem(item));
+        console.log("Backend updated successfully");
       }
     } catch (error) {
+      dispatch(removeWishListItem(id));
+      alert("Could not update backend or add itemto cart currently");
       console.log(error);
     }
   };

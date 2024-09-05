@@ -77,33 +77,42 @@ export const fetchCartItems = () => {
 
 export const sendCartItem = (prodDetail) => {
   console.log(prodDetail);
-  const { id, totalPrice, title, image, price } = prodDetail;
 
   return async (dispatch) => {
+    const { id, totalPrice, title, image, price } = prodDetail;
+    dispatch(addItem({ id, totalPrice, title, image, price }));
     try {
       const response = await api.post(REACT_APP_ADDITEM_TO_CART, {
         item: prodDetail,
       });
       if (response.status === 201) {
-        dispatch(addItem({ id, totalPrice, title, image, price }));
+        console.log("Backend updated successfully");
       }
     } catch (error) {
+      dispatch(removeItem(id));
+      alert(
+        "Something went wrong, backend cannot be updated, item cannot be added to cart"
+      );
       console.log(error);
     }
   };
 };
 
-export const removeItemFromCart = (itemId) => {
+export const removeItemFromCart = (item) => {
   return async (dispatch) => {
+    const { id, totalPrice, title, image, price } = item;
+    dispatch(removeItem(id));
     try {
       const response = await api.post(REACT_APP_REMOVEITEM_FROM_CART, {
-        id: itemId,
+        id,
       });
       console.log(response);
       if (response.status === 201) {
-        dispatch(removeItem(itemId));
+        console.log("Item removed from backend cart");
       }
     } catch (error) {
+      dispatch(addItem({ id, totalPrice, title, image, price }));
+      alert("backend could not be updated properly");
       console.log(error);
     }
   };
