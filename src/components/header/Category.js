@@ -46,14 +46,14 @@ const Category = () => {
                     <Spin size="small" className="" />
                   ) : (
                     <ul>
-                      {catProd?.map(({ _id, title }) => (
+                      {catProd?.map(({ _id: id, title }) => (
                         <li
-                          key={_id}
+                          key={id}
                           className="py-3 px-2 hover:bg-brandGray block border border-solid border-x-0 border-t-0 border-b-brandStroke  "
                         >
                           <button
                             onClick={() =>
-                              navigate(`/productDetails?productId=${_id}`)
+                              navigate(`/productDetails?productId=${id}`)
                             }
                             className=" text-start"
                           >
