@@ -67,11 +67,15 @@ const cartItem = createSlice({
 
 export const fetchCartItems = () => {
   return async (dispatch) => {
-    const cartData = await api.get(REACT_APP_ADDITEM_TO_CART);
-    console.log(cartData);
-    let cartLength = 0;
-    cartData?.data?.forEach((item) => (cartLength += item.qty));
-    dispatch(updatecart({ items: cartData?.data, totalQty: cartLength }));
+    try {
+      const cartData = await api.get(REACT_APP_ADDITEM_TO_CART);
+      console.log(cartData);
+      let cartLength = 0;
+      cartData?.data?.forEach((item) => (cartLength += item.qty));
+      dispatch(updatecart({ items: cartData?.data, totalQty: cartLength }));
+    } catch (error) {
+      console.log(error?.response?.data?.error);
+    }
   };
 };
 

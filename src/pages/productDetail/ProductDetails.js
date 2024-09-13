@@ -25,23 +25,24 @@ const ProductDetails = () => {
 
   const { data: prodDetail, isLoading, error } = useGetProductDetails(orderId);
   const inWishList = useSelector((store) =>
-    store.wishList.items.some((item) => item.id === Number(orderId))
+    store.wishList.items.some((item) => item.id === orderId)
   );
   const inCart = useSelector((store) =>
-    store.cart.items.some((item) => item.id === Number(orderId))
+    store.cart.items.some((item) => item.id === orderId)
   );
   const dispatch = useDispatch();
 
   const handleCart = () => {
-    dispatch(sendCartItem(prodDetail));
+    const { _id: id, title, price, image } = prodDetail;
+    dispatch(sendCartItem({ id, title, price, image }));
   };
 
   const handleWishList = () => {
-    const { id } = prodDetail;
+    const { _id: id, title, price, image } = prodDetail;
     if (inWishList) {
-      dispatch(deleteWhishlistItem(prodDetail));
+      dispatch(deleteWhishlistItem({ id, title, price, image }));
     } else {
-      dispatch(sendWhishlistItem(prodDetail));
+      dispatch(sendWhishlistItem({ id, title, price, image }));
     }
   };
 
