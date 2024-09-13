@@ -9,8 +9,7 @@ api.interceptors.request.use(
   (config) => {
     // Get the token from localStorage
     const token = JSON.parse(localStorage.getItem("okta-token-storage"))
-      .accessToken.accessToken;
-    console.log(token);
+      .accessToken?.accessToken;
 
     // If the token exists, attach it to the Authorization header
     if (token) {
