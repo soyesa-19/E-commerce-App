@@ -9,7 +9,6 @@ const images = [Img, Img2, Img3, Img4, Img5];
 
 const ImageSlider = () => {
   const [curr, setCurr] = useState(0);
-  console.log(curr);
   useEffect(() => {
     const interval = setInterval(() => {
       setCurr((prev) => (prev + 1) % images.length);

@@ -35,10 +35,10 @@ const ProductList = () => {
   return (
     <>
       <div className=" flex flex-row gap-8 justify-center p-16 flex-wrap">
-        {currentProds.map((product) => (
+        {productsList.map((product) => (
           <ProductCard
-            key={product.id}
-            id={product.id}
+            key={product._id}
+            id={product._id}
             title={product.title}
             image={product.image}
             description={product.description}

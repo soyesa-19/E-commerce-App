@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../services/axios/http";
+
+const REACT_APP_ADDITEM_TO_CART = process.env.REACT_APP_ADDITEM_TO_CART;
+const REACT_APP_REMOVEITEM_FROM_CART =
+  process.env.REACT_APP_REMOVEITEM_FROM_CART;
 
 const initialState = JSON.parse(localStorage.getItem("cart")) || {
   items: [],
@@ -17,7 +21,7 @@ const cartItem = createSlice({
       state.items = action.payload.items;
       state.totalQty = action.payload.totalQty;
       action.payload.items.forEach((item) => {
-        tPrice += item.price;
+        tPrice += item.totalPrice;
       });
       state.totalPrice = tPrice;
     },
@@ -32,8 +36,8 @@ const cartItem = createSlice({
         state.items.push({
           id: newItem.id,
           name: newItem.title,
-          price: newItem.price,
-          totalPrice: newItem.price,
+          price: newItem.totalPrice,
+          totalPrice: newItem.totalPrice,
           image: newItem.image,
           qty: 1,
         });
@@ -47,11 +51,12 @@ const cartItem = createSlice({
       state.totalQty--;
       const newItemId = action.payload;
       console.log(newItemId);
-      const existItem = state.items.find((item) => item.id === newItemId.id);
+      const existItem = state.items.find((item) => item.id === newItemId);
       state.totalPrice -= existItem.price;
       console.log(existItem);
       if (existItem.qty === 1) {
-        state.items = state.items.filter((item) => item.id !== newItemId.id);
+        console.log("hi");
+        state.items = state.items.filter((item) => item.id !== newItemId);
       } else {
         existItem.qty--;
         existItem.totalPrice = existItem.totalPrice - existItem.price;
@@ -62,25 +67,58 @@ const cartItem = createSlice({
 
 export const fetchCartItems = () => {
   return async (dispatch) => {
-    const response = await fetch("http://localhost:5000/api/cartProds");
-    const cartData = await response.json();
-    console.log(cartData);
-    dispatch(updatecart({ items: cartData, totalQty: cartData.length }));
+    try {
+      const cartData = await api.get(REACT_APP_ADDITEM_TO_CART);
+      console.log(cartData);
+      let cartLength = 0;
+      cartData?.data?.forEach((item) => (cartLength += item.qty));
+      dispatch(updatecart({ items: cartData?.data, totalQty: cartLength }));
+    } catch (error) {
+      console.log(error?.response?.data?.error);
+    }
   };
 };
 
 export const sendCartItem = (prodDetail) => {
   console.log(prodDetail);
+
   return async (dispatch) => {
+    const { id, totalPrice, title, image, price } = prodDetail;
+    dispatch(addItem({ id, totalPrice, title, image, price }));
     try {
-      await axios.post("http://localhost:5000/api/cartProds", {
+      const response = await api.post(REACT_APP_ADDITEM_TO_CART, {
         item: prodDetail,
       });
+      if (response.status === 201) {
+        console.log("Backend updated successfully");
+      }
     } catch (error) {
+      dispatch(removeItem(id));
+      alert(
+        "Something went wrong, backend cannot be updated, item cannot be added to cart"
+      );
       console.log(error);
     }
-    const { id, price, title, image } = prodDetail;
-    dispatch(addItem({ id, price, title, image }));
+  };
+};
+
+export const removeItemFromCart = (item) => {
+  return async (dispatch) => {
+    const { id, totalPrice, title, image, price } = item;
+    dispatch(removeItem(id));
+    try {
+      const response = await api.post(REACT_APP_REMOVEITEM_FROM_CART, {
+        id,
+      });
+      console.log(response);
+      if (response.status === 201) {
+        console.log("Item removed from backend cart");
+      }
+    } catch (error) {
+      dispatch(addItem({ id, totalPrice, title, image, price }));
+      alert("backend could not be updated properly");
+      console.log(error);
+    }
   };
 };
 

@@ -8,6 +8,8 @@ import { sendCartItem } from "../../store/cart-slice";
 import {
   addWishListItem,
   removeWishListItem,
+  sendWhishlistItem,
+  deleteWhishlistItem,
 } from "../../store/wishList-slice";
 import { addBuyNowItems } from "../../store/buyNow-slice";
 import useGetProductDetails from "./useGetProductDetails";
@@ -23,24 +25,24 @@ const ProductDetails = () => {
 
   const { data: prodDetail, isLoading, error } = useGetProductDetails(orderId);
   const inWishList = useSelector((store) =>
-    store.wishList.items.some((item) => item.id === Number(orderId))
+    store.wishList.items.some((item) => item.id === orderId)
   );
   const inCart = useSelector((store) =>
-    store.cart.items.some((item) => item.id === Number(orderId))
+    store.cart.items.some((item) => item.id === orderId)
   );
   const dispatch = useDispatch();
 
   const handleCart = () => {
-    console.log(prodDetail?.image);
-    dispatch(sendCartItem(prodDetail));
+    const { _id: id, title, price, image } = prodDetail;
+    dispatch(sendCartItem({ id, title, price, image }));
   };
 
   const handleWishList = () => {
-    const { id, price, title, image } = prodDetail;
+    const { _id: id, title, price, image } = prodDetail;
     if (inWishList) {
-      dispatch(removeWishListItem({ id }));
+      dispatch(deleteWhishlistItem({ id, title, price, image }));
     } else {
-      dispatch(addWishListItem({ id, price, title, image }));
+      dispatch(sendWhishlistItem({ id, title, price, image }));
     }
   };
 

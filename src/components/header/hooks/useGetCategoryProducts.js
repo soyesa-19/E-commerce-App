@@ -1,13 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import api from "../../../services/axios/http";
 
 export const useGetCategoryProducts = (category, isEnabled) => {
   const getProducts = async () => {
-    const response = await fetch(
-      `https://fakestoreapi.com/products/category/${category}`
-    );
-    const categoryProducts = await response.json();
-
-    return categoryProducts;
+    const response = await api.get(`/api/products/category?ctg=${category}`);
+    return response?.data;
   };
 
   return useQuery({

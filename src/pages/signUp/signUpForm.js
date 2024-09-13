@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useOktaAuth } from "@okta/okta-react";
 import api from "../../services/axios/http";
 import Input from "../../components/InputContainer/Input";
+import { responsiveFontSizes } from "@mui/material";
 
 const REACT_APP_OCTA_API_TOKEN = process.env.REACT_APP_OCTA_API_TOKEN;
 
@@ -27,7 +28,7 @@ const SignUpForm = () => {
     console.log(password);
     try {
       const response = await api.post(
-        "/signup",
+        "/api/signup",
         {
           profile: {
             firstName: fname,
@@ -48,13 +49,12 @@ const SignUpForm = () => {
           },
         }
       );
+      console.log(response);
       if (response.status === 200) {
-        await oktaAuth.signInWithRedirect({
-          sessionToken: response?.data?.sessionToken,
-        });
+        await void oktaAuth.signInWithRedirect();
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error?.response?.data?.error);
     }
   };
   return (
