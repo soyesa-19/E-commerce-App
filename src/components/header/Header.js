@@ -8,6 +8,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import LOGO from "../../assets/images/logo.jpeg";
 import { useEffect, useState } from "react";
 
 const Header = () => {
@@ -32,7 +33,7 @@ const Header = () => {
     <div>
       <div className=" flex flex-row  justify-between items-center h-[88px] px-[108px] ">
         <Link to={"/"}>
-          <h4>{t("Welcome")}</h4>
+          <img src={LOGO} alt="Logo" />
         </Link>
         {authState !== null && (
           <div className=" flex flex-row  justify-center items-center gap-8">

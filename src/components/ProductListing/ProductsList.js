@@ -1,13 +1,11 @@
 import { useState } from "react";
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
-import { useSelector, useDispatch } from "react-redux";
 import { useFetchProduct } from "./hooks/useFetchProducts";
 
 const ProductList = () => {
   const [currentProdIndex, setCurrentProdIndex] = useState(1);
-  const [prodPerPage] = useState(4);
-  const dispatch = useDispatch();
+  const [prodPerPage] = useState(6);
 
   const { data: productsList } = useFetchProduct();
 
@@ -37,7 +35,7 @@ const ProductList = () => {
   return (
     <>
       <div className=" flex flex-row gap-8 justify-center p-16 flex-wrap">
-        {productsList?.map((product) => (
+        {currentProds?.map((product) => (
           <ProductCard
             key={product._id}
             id={product._id}
@@ -49,17 +47,21 @@ const ProductList = () => {
           />
         ))}
       </div>
-      {/* {productsList.length > prodPerPage && (
+      {productsList?.length > prodPerPage && (
         <Pagination
           prevPage={prevPage}
           nextPage={nextPage}
           currPage={currPage}
           prodPerPage={prodPerPage}
           productsList={productsList}
-          pages={Math.abs(productsList.length / prodPerPage)}
+          pages={
+            productsList?.length % prodPerPage != 0
+              ? Math.abs(productsList?.length / prodPerPage) + 1
+              : Math.abs(productsList?.length / prodPerPage)
+          }
           currentPage={currentPage}
         />
-      )} */}
+      )}
     </>
   );
 };
