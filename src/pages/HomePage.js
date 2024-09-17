@@ -1,5 +1,5 @@
 import Reactga4 from "react-ga4";
-import ProductList from "../components/ProductsList";
+import ProductList from "../components/ProductListing/ProductsList";
 import ImageSlider from "../components/ImageSlider";
 
 const HomePage = () => {

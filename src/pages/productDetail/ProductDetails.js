@@ -33,6 +33,7 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
 
   const handleCart = () => {
+    console.log(prodDetail);
     const { _id: id, title, price, image } = prodDetail;
     dispatch(sendCartItem({ id, title, price, image }));
   };

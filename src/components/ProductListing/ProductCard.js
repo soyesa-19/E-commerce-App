@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../store/cart-slice";
+import { addItem } from "../../store/cart-slice";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import {
   sendWhishlistItem,
   deleteWhishlistItem,
-} from "../store/wishList-slice";
+} from "../../store/wishList-slice";
 
 const ProductCard = ({ title, image, description, price, rating, id }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);

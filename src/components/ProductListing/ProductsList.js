@@ -1,13 +1,15 @@
 import { useState } from "react";
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useFetchProduct } from "./hooks/useFetchProducts";
 
 const ProductList = () => {
   const [currentProdIndex, setCurrentProdIndex] = useState(1);
   const [prodPerPage] = useState(4);
+  const dispatch = useDispatch();
 
-  const productsList = useSelector((store) => store.products.filteredItems);
+  const { data: productsList } = useFetchProduct();
 
   const prevPage = () => {
     if (currentProdIndex <= 1) {
@@ -31,11 +33,11 @@ const ProductList = () => {
   const lastProdindex = currentProdIndex * prodPerPage;
   const currentPage = lastProdindex / prodPerPage;
   const firstProdIndex = lastProdindex - prodPerPage;
-  const currentProds = productsList.slice(firstProdIndex, lastProdindex);
+  const currentProds = productsList?.slice(firstProdIndex, lastProdindex);
   return (
     <>
       <div className=" flex flex-row gap-8 justify-center p-16 flex-wrap">
-        {productsList.map((product) => (
+        {productsList?.map((product) => (
           <ProductCard
             key={product._id}
             id={product._id}

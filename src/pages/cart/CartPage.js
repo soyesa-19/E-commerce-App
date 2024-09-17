@@ -11,6 +11,7 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((store) => store.cart.items);
+  console.log(cartItems);
   const totalCartPrice = useSelector((store) => store.cart.totalPrice);
   const totalQty = useSelector((store) => store.cart.totalQty);
 
@@ -18,9 +19,9 @@ const CartPage = () => {
     dispatch(addBuyNowItems(cartItems));
     navigate("/checkout");
   };
-  useEffect(() => {
-    dispatch(fetchCartItems());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchCartItems());
+  // }, []);
 
   return (
     <div className="flex flex-row gap-10 justify-center items-start my-7">
