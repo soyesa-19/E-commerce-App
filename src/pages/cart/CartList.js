@@ -54,7 +54,7 @@ const CartList = ({ cartItems }) => {
                   -
                 </button>
               </div>
-              <p>${item.totalPrice}</p>
+              <p>${item.qty * item.price}</p>
               <div>
                 <button
                   onClick={() => handleRemoveItem(item)}

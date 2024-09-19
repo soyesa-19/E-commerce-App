@@ -11,9 +11,9 @@ const WishList = () => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((store) => store.wishList.items);
 
-  useEffect(() => {
-    dispatch(fetchWishlistItems());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchWishlistItems());
+  // }, []);
 
   const clearWishlistItems = () => {
     dispatch(deleteWhishlistItem());

@@ -7,6 +7,9 @@ const Input = ({
   inputClass,
   containerClass,
   label,
+  error,
+  onBlur,
+  touched,
 }) => {
   return (
     <div className={containerClass}>
@@ -16,11 +19,16 @@ const Input = ({
       <input
         type={type}
         name={name}
+        id={name}
         placeholder={placeholder}
         className={inputClass}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
       />
+      {touched?.[name] && error?.[name] ? (
+        <div className=" text-brandRed text-sm font-light">{error[name]}</div>
+      ) : null}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../services/axios/http";
 
-const initialState = JSON.parse(localStorage.getItem("wishlist")) || {
+const initialState = {
   items: [],
   qty: 0,
 };
@@ -46,7 +46,7 @@ export const fetchWishlistItems = () => {
       const response = await api.get("/api/whishlist");
       console.log(response);
       if (response.status === 200) {
-        dispatch(updateWhishlist(response?.data));
+        dispatch(updateWhishlist(response?.data?.whishlistProducts));
       }
     } catch (error) {
       console.log(error);

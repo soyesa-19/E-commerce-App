@@ -7,6 +7,9 @@ import { Security, LoginCallback } from "@okta/okta-react";
 import api from "./services/axios/http";
 import octaConfig from "./services/okta/oktaConfig";
 import { addFilteredProducts, addProducts } from "./store/products_slice";
+import { fetchCartItems } from "./store/cart-slice";
+import { fetchWishlistItems } from "./store/wishList-slice";
+
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import RootLayout from "./pages/Root";
@@ -21,8 +24,6 @@ const ProductDetails = lazy(() =>
 const CartPage = lazy(() => import("./pages/cart/CartPage"));
 const WishList = lazy(() => import("./pages/whishlist/WishList"));
 const Checkout = lazy(() => import("./pages/checkout/Chekout"));
-
-const GET_PRODUCTS_LIST = process.env.REACT_APP_FETCH_ALL_PRODUCTS;
 
 const oktaAuth = new OktaAuth(octaConfig);
 
@@ -102,13 +103,8 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get(GET_PRODUCTS_LIST);
-      console.log(response);
-      dispatch(addProducts(response.data));
-      dispatch(addFilteredProducts(response.data));
-    };
-    fetchData();
+    dispatch(fetchCartItems());
+    dispatch(fetchWishlistItems());
   }, []);
 
   return (

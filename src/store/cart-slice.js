@@ -35,8 +35,8 @@ const cartItem = createSlice({
       if (!isItemExist) {
         state.items.push({
           id: newItem.id,
-          name: newItem.title,
-          price: newItem.totalPrice,
+          title: newItem.title,
+          price: newItem.price,
           totalPrice: newItem.totalPrice,
           image: newItem.image,
           qty: 1,
@@ -83,8 +83,8 @@ export const sendCartItem = (prodDetail) => {
   console.log(prodDetail);
 
   return async (dispatch) => {
-    const { id, totalPrice, title, image, price } = prodDetail;
-    dispatch(addItem({ id, totalPrice, title, image, price }));
+    const { id, title, image, price } = prodDetail;
+    dispatch(addItem({ id, title, image, price }));
     try {
       const response = await api.post(REACT_APP_ADDITEM_TO_CART, {
         item: prodDetail,
