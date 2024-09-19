@@ -2,12 +2,9 @@ import { useState } from "react";
 import Backdrop from "../HOC/Backdrop";
 import { useFormik } from "formik";
 import Input from "../../../../components/InputContainer/Input";
+import api from "../../../../services/axios/http";
 
-const AddressForm = ({
-  setShowFormModal,
-  setSelectedAddress,
-  setAdressList,
-}) => {
+const AddressForm = ({ setShowFormModal, setSelectedAddress, refetch }) => {
   const validate = (values) => {
     let errors = {};
 
@@ -47,11 +44,35 @@ const AddressForm = ({
         errors.pincode = "Enter valid pincode";
       }
     }
+
+    if (!values.contact) {
+      errors.contact = "Required";
+    } else if (values.contact.length !== 10) {
+      errors.contact = "No should be of length 10";
+    }
     return errors;
   };
-  const handleSubmit = (values) => {
+  const handleFormSubmit = async (values) => {
     alert("hi");
-    alert(JSON.stringify(values, null, 2));
+    const response = await api.post("/api/addresses", {
+      customerName: values.customerName,
+      type: values.addressType,
+      address: [
+        values.building,
+        values.street,
+        values.pincode,
+        values.city,
+        values.state,
+      ].join(" "),
+      contact: values.contact,
+    });
+
+    if (response.status != 201) {
+      return alert("couldt update backend");
+    }
+
+    await refetch();
+    setShowFormModal(false);
   };
   const formik = useFormik({
     initialValues: {
@@ -62,9 +83,10 @@ const AddressForm = ({
       pincode: "",
       city: "",
       state: "",
+      contact: "",
     },
     validate,
-    onSubmit: handleSubmit,
+    onSubmit: handleFormSubmit,
   });
 
   return (
@@ -205,6 +227,25 @@ const AddressForm = ({
             touched={formik.touched}
           />
 
+          <Input
+            type="text"
+            name="contact"
+            id="contact"
+            placeholder="Enter your Mobile no"
+            containerClass="flex flex-col gap-1"
+            inputClass={`py-3 px-4 border border-brandStroke rounded-md focus:!border-brandStroke ${
+              formik.touched.state && formik.errors.state
+                ? "border-brandRed"
+                : "border-brandStroke"
+            }`}
+            label="Mobile"
+            value={formik.values.contact}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors}
+            touched={formik.touched}
+          />
+
           <div className="flex gap-6 items-end justify-end">
             <button
               onClick={() => setShowFormModal(false)}
@@ -219,7 +260,9 @@ const AddressForm = ({
                 formik?.errors?.city ||
                 formik?.errors?.customerName ||
                 formik?.errors?.pincode ||
-                formik?.errors?.state
+                formik?.errors?.state ||
+                formik?.errors?.contact ||
+                formik?.errors?.street
               }
               className=" text-brandDark bg-brandPrimary py-3 px-8 rounded-lg disabled:bg-brandGray"
             >

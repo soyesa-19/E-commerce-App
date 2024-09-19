@@ -29,11 +29,11 @@ const AddressModal = ({
           </button>
         </div>
         <div className="py-2 px-8 flex flex-row gap-5 flex-wrap justify-center">
-          {addressList?.map(({ id, name, address, type, contact }) => {
+          {addressList?.map(({ id, customerName, address, type, contact }) => {
             return (
               <AddressCard
                 id={id}
-                name={name}
+                customerName={customerName}
                 type={type}
                 contact={contact}
                 address={address}
