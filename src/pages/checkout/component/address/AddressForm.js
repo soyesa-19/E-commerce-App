@@ -53,7 +53,6 @@ const AddressForm = ({ setShowFormModal, setSelectedAddress, refetch }) => {
     return errors;
   };
   const handleFormSubmit = async (values) => {
-    alert("hi");
     const response = await api.post("/api/addresses", {
       customerName: values.customerName,
       type: values.addressType,
