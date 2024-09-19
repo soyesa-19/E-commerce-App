@@ -1,110 +1,210 @@
 import { useState } from "react";
 import Backdrop from "../HOC/Backdrop";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
+import { useFormik } from "formik";
+import Input from "../../../../components/InputContainer/Input";
 
 const AddressForm = ({
   setShowFormModal,
   setSelectedAddress,
   setAdressList,
 }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    type: "",
-    address: "",
-    contact: "",
+  const validate = (values) => {
+    let errors = {};
+
+    if (!values.customerName) {
+      errors.customerName = "Required*";
+    } else if (values.customerName.length > 16) {
+      errors.customerName = "Customer name should be less than 15 characters";
+    }
+
+    if (!values.addressType) {
+      errors.addressType = "Required";
+    }
+
+    if (!values.building) {
+      errors.building = "Reqiured";
+    } else if (values.building.length > 15) {
+      errors.building = "Building name should be less than 10 character";
+    }
+
+    if (!values.city) {
+      errors.city = "Required";
+    } else if (!/^[A-Za-z]+$/.test(values.city)) {
+      errors.city = "Enter valid city name";
+    }
+
+    if (!values.state) {
+      errors.state = "Required";
+    } else if (!/^[A-Za-z]+$/.test(values.state)) {
+      errors.state = "Enter valid city name";
+    }
+
+    if (!values.pincode) {
+      errors.pincode = "Required";
+    } else {
+      let isValidPincode = /^\d{6}$/.test(values.pincode);
+      if (!isValidPincode) {
+        errors.pincode = "Enter valid pincode";
+      }
+    }
+    return errors;
+  };
+  const handleSubmit = (values) => {
+    alert("hi");
+    alert(JSON.stringify(values, null, 2));
+  };
+  const formik = useFormik({
+    initialValues: {
+      customerName: "",
+      addressType: "",
+      building: "",
+      street: "",
+      pincode: "",
+      city: "",
+      state: "",
+    },
+    validate,
+    onSubmit: handleSubmit,
   });
 
-  const onChangeHandler = (e, flag) => {
-    const { value } = e.target;
-    setFormData((prev) => ({ ...prev, [flag]: value }));
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const prev = JSON.parse(localStorage.getItem("addresses"));
-
-    prev.push({
-      name: formData.name,
-      type: formData.type,
-      address: formData.address,
-      contact: formData.contact,
-      id: 8,
-    });
-    localStorage.setItem("addresses", JSON.stringify(prev));
-    setSelectedAddress(formData);
-    setAdressList(prev);
-  };
   return (
     <Backdrop setShowModal={setShowFormModal}>
       <div
         onClick={(e) => e.stopPropagation()}
         className=" overflow-y-scroll py-6 px-12 bg-white w-1/3 h-[600px] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-250 "
       >
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6">
           <p className=" text-brandDark text-base font-semibold">Add Address</p>
-          <div className="flex flex-col gap-1">
-            <label
-              htmlFor="name"
-              className=" text-brandDark text-base font-medium"
-            >
-              Cutomer's Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              className="py-3 px-4 border border-brandStroke rounded-md"
-              value={formData.name}
-              onChange={(e) => onChangeHandler(e, "name")}
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label
-              htmlFor="type"
-              className=" text-brandDark text-base font-medium"
-            >
-              Type
-            </label>
-            <input
-              type="text"
-              name="type"
-              placeholder="Home or work"
-              className="py-3 px-4 border border-brandStroke rounded-md"
-              value={formData.type}
-              onChange={(e) => onChangeHandler(e, "type")}
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label
-              htmlFor="address"
-              className=" text-brandDark text-base font-medium"
-            >
-              Address
-            </label>
-            <input
-              type="text"
-              name="address"
-              placeholder="Enter your address"
-              className="py-3 px-4 border border-brandStroke rounded-md"
-              value={formData.address}
-              onChange={(e) => onChangeHandler(e, "address")}
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label
-              htmlFor="cotact"
-              className=" text-brandDark text-base font-medium"
-            >
-              Contact No
-            </label>
-            <input
-              type="text"
-              name="contact"
-              placeholder="Enter your phone number"
-              className="py-3 px-4 border border-brandStroke rounded-md"
-              value={formData.contact}
-              onChange={(e) => onChangeHandler(e, "contact")}
-            />
-          </div>
+          <Input
+            type="text"
+            name="customerName"
+            id="customerName"
+            placeholder="Enter your name"
+            containerClass="flex flex-col gap-1"
+            inputClass={`py-3 px-4 border border-brandStroke rounded-md ${
+              formik.touched.customerName && formik.errors.customerName
+                ? "border-brandRed"
+                : "border-brandStroke"
+            }`}
+            label="Cutomer's Name"
+            value={formik.values.customerName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors}
+            touched={formik.touched}
+          />
+          <Input
+            type="text"
+            name="addressType"
+            id="addressType"
+            placeholder="Home or work"
+            containerClass="flex flex-col gap-1"
+            inputClass={`py-3 px-4 border border-brandStroke rounded-md focus:!border-brandStroke ${
+              formik.touched.addressType && formik.errors.addressType
+                ? "border-brandRed"
+                : "border-brandStroke"
+            }`}
+            label="Type"
+            value={formik.values.addressType}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors}
+            touched={formik.touched}
+          />
+          <Input
+            type="text"
+            name="building"
+            id="building"
+            placeholder="Building no, Flat no"
+            containerClass="flex flex-col gap-1"
+            inputClass={`py-3 px-4 border border-brandStroke rounded-md focus:!border-brandStroke ${
+              formik.touched.building && formik.errors.building
+                ? "border-brandRed"
+                : "border-brandStroke"
+            }`}
+            label="Flat/Building No"
+            value={formik.values.building}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors}
+            touched={formik.touched}
+          />
+          <Input
+            type="text"
+            name="street"
+            id="street"
+            placeholder="Area/Locality/Street"
+            containerClass="flex flex-col gap-1"
+            inputClass={`py-3 px-4 border border-brandStroke rounded-md focus:!border-brandStroke ${
+              formik.touched.street && formik.errors.street
+                ? "border-brandRed"
+                : "border-brandStroke"
+            }`}
+            label="Area/Locality/Street"
+            value={formik.values.street}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors}
+            touched={formik.touched}
+          />
+
+          <Input
+            type="text"
+            name="pincode"
+            id="pincode"
+            placeholder="Enter your pincode"
+            containerClass="flex flex-col gap-1"
+            inputClass={`py-3 px-4 border border-brandStroke rounded-md focus:!border-brandStroke ${
+              formik.touched.pincode && formik.errors.pincode
+                ? "border-brandRed"
+                : "border-brandStroke"
+            }`}
+            label="Pincode"
+            value={formik.values.pincode}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors}
+            touched={formik.touched}
+          />
+
+          <Input
+            type="text"
+            name="city"
+            id="city"
+            placeholder="Enter your city"
+            containerClass="flex flex-col gap-1"
+            inputClass={`py-3 px-4 border border-brandStroke rounded-md focus:!border-brandStroke ${
+              formik.touched.city && formik.errors.city
+                ? "border-brandRed"
+                : "border-brandStroke"
+            }`}
+            label="City"
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors}
+            touched={formik.touched}
+          />
+
+          <Input
+            type="text"
+            name="state"
+            id="state"
+            placeholder="Enter your state"
+            containerClass="flex flex-col gap-1"
+            inputClass={`py-3 px-4 border border-brandStroke rounded-md focus:!border-brandStroke ${
+              formik.touched.state && formik.errors.state
+                ? "border-brandRed"
+                : "border-brandStroke"
+            }`}
+            label="State"
+            value={formik.values.state}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.errors}
+            touched={formik.touched}
+          />
+
           <div className="flex gap-6 items-end justify-end">
             <button
               onClick={() => setShowFormModal(false)}
@@ -112,7 +212,17 @@ const AddressForm = ({
             >
               Cancel
             </button>
-            <button className=" text-brandDark bg-brandPrimary py-3 px-8 rounded-lg">
+            <button
+              disabled={
+                formik?.errors?.addressType ||
+                formik?.errors?.building ||
+                formik?.errors?.city ||
+                formik?.errors?.customerName ||
+                formik?.errors?.pincode ||
+                formik?.errors?.state
+              }
+              className=" text-brandDark bg-brandPrimary py-3 px-8 rounded-lg disabled:bg-brandGray"
+            >
               Submit
             </button>
           </div>
