@@ -57,7 +57,11 @@ const AddressDetails = ({ currentStep, onProceed }) => {
               onClick={handleChangeAddress}
               className="border border-brandStroke rounded-[4px] py-3 px-6"
             >
-              {selectedAddress ? "Change Address" : "Select Address"}
+              {addressList?.length !== 0
+                ? selectedAddress
+                  ? "Change Address"
+                  : "Select Address"
+                : "Add address"}
             </button>
           </div>
         </div>

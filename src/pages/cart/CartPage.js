@@ -10,18 +10,17 @@ import { useEffect } from "react";
 const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartItems = useSelector((store) => store.cart.items);
+  const {
+    items: cartItems,
+    totalQty,
+    totalPrice: totalCartPrice,
+  } = useSelector((store) => store.cart);
   console.log(cartItems);
-  const totalCartPrice = useSelector((store) => store.cart.totalPrice);
-  const totalQty = useSelector((store) => store.cart.totalQty);
 
   const buyNowHandler = () => {
-    dispatch(addBuyNowItems(cartItems));
+    dispatch(addBuyNowItems({ cartItems, totalCartPrice, totalQty }));
     navigate("/checkout");
   };
-  // useEffect(() => {
-  //   dispatch(fetchCartItems());
-  // }, []);
 
   return (
     <div className="flex flex-row gap-10 justify-center items-start my-7">

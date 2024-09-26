@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   items: [],
   totalPrice: 0,
+  totalQty: 0,
 };
 
 const buyNowSlice = createSlice({
@@ -11,15 +12,15 @@ const buyNowSlice = createSlice({
   reducers: {
     addBuyNowItems(state, action) {
       console.log(action.payload);
-      state.items = action.payload;
-      let sum = 0;
-      action.payload.forEach((element) => {
-        sum += element.price;
-      });
-      state.totalPrice = sum;
+      const { cartItems, totalCartPrice, totalQty } = action.payload;
+      state.items = cartItems;
+      state.totalPrice = totalCartPrice;
+      state.totalQty = totalQty;
     },
     removeBuyNowItem(state, action) {
       state.items = [];
+      state.totalPrice = 0;
+      state.totalQty = 0;
     },
   },
 });

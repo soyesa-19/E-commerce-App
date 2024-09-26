@@ -28,21 +28,31 @@ const AddressModal = ({
             + Add Address
           </button>
         </div>
-        <div className="py-2 px-8 flex flex-row gap-5 flex-wrap justify-center">
-          {addressList?.map(({ id, customerName, address, type, contact }) => {
-            return (
-              <AddressCard
-                id={id}
-                customerName={customerName}
-                type={type}
-                contact={contact}
-                address={address}
-                selectedAddress={selectedAddress}
-                setSelectedAddress={setSelectedAddress}
-              />
-            );
-          })}
-        </div>
+        {addressList?.length > 0 ? (
+          <div className="py-2 px-8 flex flex-row gap-5 flex-wrap justify-center">
+            {addressList?.map(
+              ({ id, customerName, address, type, contact }) => {
+                return (
+                  <AddressCard
+                    id={id}
+                    customerName={customerName}
+                    type={type}
+                    contact={contact}
+                    address={address}
+                    selectedAddress={selectedAddress}
+                    setSelectedAddress={setSelectedAddress}
+                  />
+                );
+              }
+            )}
+          </div>
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-brandTextPrimary text-base font-normal">
+              No address added!
+            </p>
+          </div>
+        )}
       </div>
     </Backdrop>
   );
