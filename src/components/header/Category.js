@@ -36,7 +36,7 @@ const Category = () => {
               onMouseEnter={() => handleHover(category)}
               onMouseLeave={handleLeave}
             >
-              <button className=" py-2 text-brandDark text-base font-normal hover:text-brandPrimary">
+              <button className=" py-2 text-brandDark text-base font-medium hover:text-brandPrimary hover:font-semibold">
                 {category}
               </button>
               {hoveredCategory === category && hoveredCategory && (

@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   deleteWhishlistItem,
   sendWhishlistItem,
@@ -9,7 +10,7 @@ import { sendCartItem } from "../../store/cart-slice";
 
 const WishListCard = ({ item }) => {
   console.log(item);
-  const { id, price, title, image } = item;
+  const { id, price, title, image, description } = item;
   const dispatch = useDispatch();
   const inCart = useSelector((store) =>
     store.cart.items.some((item) => item.id === id)
@@ -30,16 +31,18 @@ const WishListCard = ({ item }) => {
 
   return (
     <div className="flex flex-row items-center py-8 border border-solid border-t-0 border-x-0 border-b-brandStroke justify-between">
-      <div className="w-[560px] flex flex-row gap-4">
-        <img className="w-[96px] h-[96px]" src={image} alt="logo" />
-        <div className="flex flex-col gap-1">
-          <p className="text-brandDark text-base font-semibold">{title}</p>
-          <p className="text-brandTextPrimary text-base font-normal">
-            description
-          </p>
-          <p className=" text-brandDark text-base font-semibold">{price}</p>
+      <Link to={`/productDetails?productId=${id}`}>
+        <div className="w-[560px] flex flex-row gap-4">
+          <img className="w-[96px] h-[96px]" src={image} alt="logo" />
+          <div className="flex flex-col gap-1">
+            <p className="text-brandDark text-base font-semibold">{title}</p>
+            <p className="text-brandTextPrimary text-base font-normal">
+              {description}
+            </p>
+            <p className=" text-brandDark text-base font-semibold">{price}</p>
+          </div>
         </div>
-      </div>
+      </Link>
       <p className=" text-brandDark text-base font-medium">In stock</p>
       <button
         onClick={moveToCart}
