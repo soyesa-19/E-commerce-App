@@ -11,14 +11,14 @@ const CartOrderSummary = ({ totalPrice, totalQty, buyNowHandler }) => {
               Item Total
             </p>
             <p className=" text-brandTextPrimary text-base font-normal">
-              {totalPrice}
+              ₹ {totalPrice}
             </p>
           </div>
           <div className="flex justify-between border border-solid border-x-0 border-t-0 border-b-brandStroke">
             <p className=" text-brandTextPrimary text-base font-normal">
               Discount
             </p>
-            <p className=" text-brandTextPrimary text-base font-normal">0</p>
+            <p className=" text-brandTextPrimary text-base font-normal">₹ 0</p>
           </div>
           <div className="flex justify-between">
             <div className="flex flex-col gap-2">
@@ -31,7 +31,7 @@ const CartOrderSummary = ({ totalPrice, totalQty, buyNowHandler }) => {
             </div>
             <div className="flex flex-col gap-2">
               <p className=" text-brandTextPrimary text-base font-normal">
-                {totalPrice}
+                ₹ {totalPrice}
               </p>
             </div>
           </div>

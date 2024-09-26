@@ -12,7 +12,7 @@ export const useFetchAddresses = () => {
     return response?.data?.addresses;
   };
   return useQuery({
-    queryKey: "addresses",
+    queryKey: ["addresses"],
     queryFn: getUserAddresses,
     retry: false,
   });

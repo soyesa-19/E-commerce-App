@@ -5,7 +5,7 @@ const REACT_APP_ADDITEM_TO_CART = process.env.REACT_APP_ADDITEM_TO_CART;
 const REACT_APP_REMOVEITEM_FROM_CART =
   process.env.REACT_APP_REMOVEITEM_FROM_CART;
 
-const initialState = JSON.parse(localStorage.getItem("cart")) || {
+const initialState = {
   items: [],
   totalQty: 0,
   totalPrice: 0,
@@ -16,14 +16,11 @@ const cartItem = createSlice({
   initialState,
   reducers: {
     updatecart(state, action) {
-      let tPrice = 0;
       console.log(action.payload);
       state.items = action.payload.items;
       state.totalQty = action.payload.totalQty;
-      action.payload.items.forEach((item) => {
-        tPrice += item.totalPrice;
-      });
-      state.totalPrice = tPrice;
+
+      state.totalPrice = action.payload.totalPrice;
     },
     addItem(state, action) {
       state.totalQty++;
@@ -71,8 +68,18 @@ export const fetchCartItems = () => {
       const cartData = await api.get(REACT_APP_ADDITEM_TO_CART);
       console.log(cartData);
       let cartLength = 0;
-      cartData?.data?.forEach((item) => (cartLength += item.qty));
-      dispatch(updatecart({ items: cartData?.data, totalQty: cartLength }));
+      let totalSum = 0;
+      cartData?.data?.forEach((item) => {
+        cartLength += item.qty;
+        totalSum += item.price * item.qty;
+      });
+      dispatch(
+        updatecart({
+          items: cartData?.data,
+          totalQty: cartLength,
+          totalPrice: totalSum,
+        })
+      );
     } catch (error) {
       console.log(error?.response?.data?.error);
     }

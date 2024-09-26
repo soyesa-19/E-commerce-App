@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   removeItem,
@@ -18,13 +19,20 @@ const CartList = ({ cartItems }) => {
     dispatch(sendCartItem(prodDetail));
   };
 
-  const moveToWishList = ({ id, title, price, image, totalPrice }) => {
+  const moveToWishList = ({
+    id,
+    title,
+    price,
+    image,
+    totalPrice,
+    description,
+  }) => {
     const inWishList = wishList.some((item) => item.id === id);
     if (inWishList) {
       alert("item already in wishlist");
     } else {
       dispatch(removeItemFromCart({ id, title, price, image, totalPrice }));
-      dispatch(sendWhishlistItem({ id, title, price, image }));
+      dispatch(sendWhishlistItem({ id, title, price, image, description }));
     }
   };
 
@@ -33,7 +41,9 @@ const CartList = ({ cartItems }) => {
       {cartItems?.map((item) => {
         return (
           <div key={item.id} className="flex flex-row gap-5 items-center pr-8">
-            <img src={item.image} className="w-[312px] h-[312px]" />
+            <Link to={`/productDetails?productId=${item.id}`}>
+              <img src={item.image} className="w-[312px] h-[312px]" />
+            </Link>
             <div className="flex flex-col gap-3">
               <p className=" text-brandDark font-semibold text-[18px] leading-[26px]">
                 {item.title}
@@ -54,7 +64,14 @@ const CartList = ({ cartItems }) => {
                   -
                 </button>
               </div>
-              <p>${item.qty * item.price}</p>
+              <p className="text-brandDark text-base font-semibold">
+                ₹{item.qty * item.price}{" "}
+                {item.qty > 1 && (
+                  <span className=" text-brandTextPrimary text-base font-normal">
+                    (₹{item.price}/item)
+                  </span>
+                )}
+              </p>
               <div>
                 <button
                   onClick={() => handleRemoveItem(item)}

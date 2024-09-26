@@ -39,11 +39,11 @@ const ProductDetails = () => {
   };
 
   const handleWishList = () => {
-    const { _id: id, title, price, image } = prodDetail;
+    const { _id: id, title, price, image, description } = prodDetail;
     if (inWishList) {
-      dispatch(deleteWhishlistItem({ id, title, price, image }));
+      dispatch(deleteWhishlistItem({ id, title, price, image, description }));
     } else {
-      dispatch(sendWhishlistItem({ id, title, price, image }));
+      dispatch(sendWhishlistItem({ id, title, price, image, description }));
     }
   };
 
