@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useOktaAuth } from "@okta/okta-react";
@@ -30,8 +30,8 @@ const Header = () => {
     }
   }, [authState]);
   return (
-    <div>
-      <div className=" flex flex-row  justify-between items-center h-[88px] px-[108px] ">
+    <div className="">
+      <div className="fixed top-0 left-0 w-full z-50 flex flex-row  justify-between items-center h-[88px] px-[108px] bg-brandWhite ">
         <Link to={"/"}>
           <img src={LOGO} alt="Logo" />
         </Link>
@@ -45,26 +45,46 @@ const Header = () => {
                       ?.idToken?.claims?.email
                   }
                 </p>
-                <Link to={"/cart"}>
-                  <div className="relative">
-                    <ShoppingCartOutlined className=" text-2xl" />
-                    {totalQty > 0 && (
-                      <span className=" absolute -top-2 -right-[10px] text-brandWhite text-xs font-normal bg-brandPrimary h-4 w-4 rounded-full flex items-center justify-center">
-                        {totalQty}
-                      </span>
-                    )}
-                  </div>
-                </Link>
-                <Link to={"/wishlist"}>
-                  <div className=" relative">
-                    <HeartOutlined className=" text-2xl" />
-                    {wishListQty > 0 && (
-                      <span className=" absolute -top-2 -right-[10px] text-brandWhite text-xs font-normal bg-brandPrimary h-4 w-4 rounded-full flex items-center justify-center">
-                        {wishListQty}
-                      </span>
-                    )}
-                  </div>
-                </Link>
+                <NavLink to={"/cart"}>
+                  {({ isActive }) => {
+                    return (
+                      <div
+                        className={`relative p-1 ${
+                          isActive
+                            ? " border border-l-0 border-r-0 border-t-0 border-b-2 border-b-brandPrimary"
+                            : ""
+                        }`}
+                      >
+                        <ShoppingCartOutlined className=" text-2xl" />
+                        {totalQty > 0 && (
+                          <span className=" absolute -top-1 -right-[5px] text-brandWhite text-xs font-normal bg-brandPrimary h-4 w-4 rounded-full flex items-center justify-center">
+                            {totalQty}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  }}
+                </NavLink>
+                <NavLink to={"/wishlist"}>
+                  {({ isActive }) => {
+                    return (
+                      <div
+                        className={`relative p-1 ${
+                          isActive
+                            ? " border border-l-0 border-r-0 border-t-0 border-b-2 border-b-brandPrimary"
+                            : ""
+                        }`}
+                      >
+                        <HeartOutlined className=" text-2xl" />
+                        {wishListQty > 0 && (
+                          <span className=" absolute -top-1 -right-[5px] text-brandWhite text-xs font-normal bg-brandPrimary h-4 w-4 rounded-full flex items-center justify-center">
+                            {wishListQty}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  }}
+                </NavLink>
                 <Link to={"/logout"}>
                   <p>Logout</p>
                 </Link>
@@ -93,7 +113,9 @@ const Header = () => {
           </div>
         )}
       </div>
-      <Category />
+      <div className="mt-[90px]">
+        <Category />
+      </div>
     </div>
   );
 };

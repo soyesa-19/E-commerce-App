@@ -91,7 +91,7 @@ const ProductDetails = () => {
                 </button>
               </div>
             </div>
-            <p>${prodDetail?.price}</p>
+            <p>₹{prodDetail?.price}</p>
           </div>
           <ButtonList
             inWishList={inWishList}

@@ -37,9 +37,9 @@ const WishListCard = ({ item }) => {
           <div className="flex flex-col gap-1">
             <p className="text-brandDark text-base font-semibold">{title}</p>
             <p className="text-brandTextPrimary text-base font-normal">
-              {description}
+              {description.substring(0, 102)}...
             </p>
-            <p className=" text-brandDark text-base font-semibold">{price}</p>
+            <p className=" text-brandDark text-base font-semibold">₹{price}</p>
           </div>
         </div>
       </Link>
