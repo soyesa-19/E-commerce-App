@@ -54,7 +54,14 @@ const CartList = ({ cartItems }) => {
                   -
                 </button>
               </div>
-              <p>${item.qty * item.price}</p>
+              <p className="text-brandDark text-base font-semibold">
+                ₹{item.qty * item.price}{" "}
+                {item.qty > 1 && (
+                  <span className=" text-brandTextPrimary text-base font-normal">
+                    (₹{item.price}/item)
+                  </span>
+                )}
+              </p>
               <div>
                 <button
                   onClick={() => handleRemoveItem(item)}

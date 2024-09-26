@@ -36,10 +36,9 @@ const Category = () => {
               onMouseEnter={() => handleHover(category)}
               onMouseLeave={handleLeave}
             >
-              <button className=" py-2 text-brandDark text-base font-normal">
+              <button className=" py-2 text-brandDark text-base font-normal hover:text-brandPrimary">
                 {category}
               </button>
-              <DownOutlined className=" text-brandStroke" />
               {hoveredCategory === category && hoveredCategory && (
                 <div className=" absolute -left-10 flex items-center justify-center p-4 w-[400px] min-h-[150px] bg-white border-2 border-brandStroke rounded-lg shadow-brandShadow z-10 before:content-[''] before:absolute before:-top-4 before:left-12 before:border-8 before:border-x-transparent before:border-t-transparent before:border-b-brandStroke after:content-[''] after:absolute after:-top-3  after:left-12 after:border-8 after:border-x-transparent after:border-t-transparent after:border-b-white">
                   {loading ? (

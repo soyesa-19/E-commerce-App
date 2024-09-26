@@ -48,7 +48,7 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
             {title.substring(0, 22)}...
           </p>
           <p className=" text-brandDark text-[18px] leading-[26px] font-normal">
-            {price}
+            ₹{price}
           </p>
           <p className=" text-brandTextPrimary text-base font-light">
             {description?.substring(0, 40)}...
