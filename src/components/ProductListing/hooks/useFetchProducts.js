@@ -7,7 +7,7 @@ export const useFetchProduct = () => {
     const response = await api.get(GET_PRODUCTS_LIST);
     // dispatch(addProducts(response.data));
     // dispatch(addFilteredProducts(response.data));
-    return response?.data;
+    return response?.data?.products;
   };
 
   return useQuery({

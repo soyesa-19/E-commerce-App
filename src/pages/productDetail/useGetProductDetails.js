@@ -22,7 +22,7 @@ const useGetProductDetails = (orderId) => {
       location: window.location.href,
     });
 
-    return response?.data;
+    return response?.data?.productDetails;
   };
 
   return useQuery({
