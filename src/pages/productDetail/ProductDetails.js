@@ -34,8 +34,8 @@ const ProductDetails = () => {
 
   const handleCart = () => {
     console.log(prodDetail);
-    const { id, title, price, image } = prodDetail;
-    dispatch(sendCartItem({ id, title, price, image }));
+    const { id, title, price, image, description } = prodDetail;
+    dispatch(sendCartItem({ id, title, price, image, description }));
   };
 
   const handleWishList = () => {
