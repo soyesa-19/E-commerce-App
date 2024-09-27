@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import api from "../services/axios/http";
 
 const initialState = {
@@ -66,10 +67,27 @@ export const sendWhishlistItem = (item) => {
 
       if (response.status === 201) {
         console.log("Backend updated successfully");
+        toast.success("Item added to whishlist!", {
+          position: "top-right",
+          autoClose: 3000, // Auto close after 3 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
       dispatch(removeWishListItem(id));
-      alert("Could not update backend or add itemto cart currently");
+      toast.error("Cannot add item to whishlist!", {
+        position: "top-right",
+        autoClose: 3000, // Auto close after 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.log(error);
     }
   };
@@ -87,11 +105,28 @@ export const deleteWhishlistItem = ({ id, title, image, price }) => {
 
       if (response.status === 201) {
         console.log("Backend updated successfully");
+        toast.success("Item removed from whishlist!", {
+          position: "top-right",
+          autoClose: 3000, // Auto close after 3 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
       if (id) {
         dispatch(addWishListItem({ id, title, image, price }));
-        alert("item cannot be removed from whishlist");
+        toast.error("Cannot remove item from whishlist!", {
+          position: "top-right",
+          autoClose: 3000, // Auto close after 3 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
       console.log(error);
     }

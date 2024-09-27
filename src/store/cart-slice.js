@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import api from "../services/axios/http";
 
 const REACT_APP_ADDITEM_TO_CART = process.env.REACT_APP_ADDITEM_TO_CART;
@@ -23,9 +25,9 @@ const cartItem = createSlice({
       state.totalPrice = action.payload.totalPrice;
     },
     addItem(state, action) {
-      state.totalQty++;
       const newItem = action.payload;
-      state.totalPrice += newItem.price;
+      state.totalQty += newItem.qty;
+      state.totalPrice += newItem.price * newItem.qty;
       console.log(action.payload);
       const isItemExist = state.items.find((item) => item.id === newItem.id);
       console.log(isItemExist);
@@ -36,11 +38,12 @@ const cartItem = createSlice({
           price: newItem.price,
           totalPrice: newItem.totalPrice,
           image: newItem.image,
-          qty: 1,
+          qty: newItem.qty,
           description: newItem.description,
         });
       } else {
-        isItemExist.totalPrice = isItemExist.totalPrice + newItem.price;
+        isItemExist.totalPrice =
+          isItemExist.totalPrice + newItem.price * newItem.qty;
         isItemExist.qty++;
       }
     },
@@ -91,19 +94,38 @@ export const sendCartItem = (prodDetail) => {
   console.log(prodDetail);
 
   return async (dispatch) => {
-    const { id, title, image, price, description } = prodDetail;
-    dispatch(addItem({ id, title, image, price, description }));
+    const { id, title, image, price, description, qty = 1 } = prodDetail;
+    console.log(qty);
+    dispatch(addItem({ id, title, image, price, description, qty }));
     try {
       const response = await api.post(REACT_APP_ADDITEM_TO_CART, {
         item: prodDetail,
       });
       if (response.status === 201) {
+        toast.success("Item added to cart successfully!", {
+          position: "top-right",
+          autoClose: 3000, // Auto close after 3 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         console.log("Backend updated successfully");
       }
     } catch (error) {
       dispatch(removeItem(id));
-      alert(
-        "Something went wrong, backend cannot be updated, item cannot be added to cart"
+      toast.error(
+        "Something went wrong, backend cannot be updated, item cannot be added to cart",
+        {
+          position: "top-right",
+          autoClose: 3000, // Auto close after 3 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
       );
       console.log(error);
     }
@@ -121,10 +143,30 @@ export const removeItemFromCart = (item) => {
       console.log(response);
       if (response.status === 201) {
         console.log("Item removed from backend cart");
+        toast.success("Item removed successfully!", {
+          position: "top-right",
+          autoClose: 3000, // Auto close after 3 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
       dispatch(addItem({ id, totalPrice, title, image, price }));
-      alert("backend could not be updated properly");
+      toast.error(
+        "Something went wrong, backend cannot be updated, item cannot be deleted from cart",
+        {
+          position: "top-right",
+          autoClose: 3000, // Auto close after 3 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
       console.log(error);
     }
   };

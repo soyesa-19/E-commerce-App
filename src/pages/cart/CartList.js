@@ -16,7 +16,8 @@ const CartList = ({ cartItems }) => {
   };
 
   const handleAddToCart = (prodDetail) => {
-    dispatch(sendCartItem(prodDetail));
+    const { id, title, image, price, description } = prodDetail;
+    dispatch(sendCartItem({ id, title, image, price, description }));
   };
 
   const moveToWishList = ({

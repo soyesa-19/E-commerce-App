@@ -35,7 +35,7 @@ const ProductDetails = () => {
   const handleCart = () => {
     console.log(prodDetail);
     const { id, title, price, image, description } = prodDetail;
-    dispatch(sendCartItem({ id, title, price, image, description }));
+    dispatch(sendCartItem({ id, title, price, image, description, qty }));
   };
 
   const handleWishList = () => {
@@ -50,7 +50,13 @@ const ProductDetails = () => {
   const buyNowHandler = () => {
     if (authState.isAuthenticated) {
       console.log(prodDetail);
-      dispatch(addBuyNowItems([prodDetail]));
+      dispatch(
+        addBuyNowItems({
+          cartItems: [prodDetail],
+          totalCartPrice: prodDetail?.price * qty,
+          totalQty: qty,
+        })
+      );
       navigate("/checkout");
     } else {
       navigate("/signin_redirect");
@@ -86,6 +92,7 @@ const ProductDetails = () => {
                 <button
                   className="w-10 h-6 "
                   onClick={() => setQty((prev) => prev - 1)}
+                  disabled={qty === 1}
                 >
                   -
                 </button>
