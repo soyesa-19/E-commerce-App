@@ -9,6 +9,7 @@ import octaConfig from "./services/okta/oktaConfig";
 import { addFilteredProducts, addProducts } from "./store/products_slice";
 import { fetchCartItems } from "./store/cart-slice";
 import { fetchWishlistItems } from "./store/wishList-slice";
+import { ToastContainer } from "react-toastify";
 
 import "./App.css";
 import HomePage from "./pages/HomePage";
@@ -110,6 +111,7 @@ function App() {
   return (
     <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
       <RouterProvider router={router}></RouterProvider>
+      <ToastContainer />
     </Security>
   );
 }
