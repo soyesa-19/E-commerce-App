@@ -1,3 +1,4 @@
+import { roundToTwoDecimal } from "../utils/utils";
 const OrderSummary = ({ totalPrice, totalQty, buyNowHandler }) => {
   return (
     <div className="flex flex-col gap-6 w-[496px]">
@@ -11,7 +12,7 @@ const OrderSummary = ({ totalPrice, totalQty, buyNowHandler }) => {
               Item Total
             </p>
             <p className=" text-brandTextPrimary text-base font-normal">
-              {totalPrice}
+              ₹{roundToTwoDecimal(totalPrice)}
             </p>
           </div>
           <div className="flex justify-between border border-solid border-x-0 border-t-0 border-b-brandStroke">
@@ -31,7 +32,7 @@ const OrderSummary = ({ totalPrice, totalQty, buyNowHandler }) => {
             </div>
             <div className="flex flex-col gap-2">
               <p className=" text-brandTextPrimary text-base font-normal">
-                {totalPrice}
+                ₹{roundToTwoDecimal(totalPrice)}
               </p>
             </div>
           </div>

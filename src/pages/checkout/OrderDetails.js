@@ -3,7 +3,13 @@ import AddressDetails from "./component/address/AddressDetails";
 import PaymentDetails from "./PaymentDetails";
 import { useState } from "react";
 
-const Orderdetails = ({ paymentType, setPaymentType }) => {
+const Orderdetails = ({
+  paymentType,
+  setPaymentType,
+  prodDetails,
+  totalPrice,
+  totalQty,
+}) => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const onProceed = (step) => {
@@ -21,7 +27,12 @@ const Orderdetails = ({ paymentType, setPaymentType }) => {
         onProceed={onProceed}
       />
 
-      <ProductDetails currentStep={currentStep} />
+      <ProductDetails
+        currentStep={currentStep}
+        prodDetails={prodDetails}
+        totalPrice={totalPrice}
+        totalQty={totalQty}
+      />
       <div className="flex flex-row gap-[17px] my-5">
         <button className=" bg-brandPrimary text-brandDark py-[13px] px-8 rounded-lg">
           Checkout
