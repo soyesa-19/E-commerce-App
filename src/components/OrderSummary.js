@@ -1,5 +1,5 @@
 import { roundToTwoDecimal } from "../utils/utils";
-const OrderSummary = ({ totalPrice, totalQty, buyNowHandler }) => {
+const OrderSummary = ({ totalPrice, totalQty, buyNowHandler, paymentType }) => {
   return (
     <div className="flex flex-col gap-6 w-[496px]">
       <div className=" border border-brandStroke rounded-lg">
