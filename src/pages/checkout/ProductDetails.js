@@ -1,13 +1,8 @@
 import { useSelector } from "react-redux";
 import { StepHeader } from "./Line";
 
-const ProductDetails = ({ currentStep }) => {
-  const {
-    items: prodDetails,
-    totalPrice,
-    totalQty,
-  } = useSelector((store) => store.buyNow);
-  console.log(prodDetails);
+const ProductDetails = ({ currentStep, prodDetails, totalPrice, totalQty }) => {
+  console.log(prodDetails, totalPrice, totalQty);
   return (
     <div>
       <StepHeader
@@ -15,7 +10,7 @@ const ProductDetails = ({ currentStep }) => {
         currentStep={currentStep}
         title={"Items and Delivery"}
       />
-      {prodDetails?.map(({ title, price, image, qty = totalQty }) => {
+      {prodDetails?.map(({ title, price, image, qty }) => {
         return (
           <div className="flex flex-row gap-10 pl-5 ml-10 my-4 items-center">
             <img className="h-[200px] w-[200px]" src={image} alt="image" />
@@ -30,6 +25,7 @@ const ProductDetails = ({ currentStep }) => {
                 )}
               </p>
               <p className="text-brandDark font-light">In stock</p>
+              <p className="text-brandDark font-light">QTY: {qty}</p>
             </div>
           </div>
         );

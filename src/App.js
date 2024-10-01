@@ -95,6 +95,14 @@ const router = createBrowserRouter([
         path: "/signup_user",
         element: <SignUp />,
       },
+      {
+        path: "/payment/success",
+        element: <div>Success</div>,
+      },
+      {
+        path: "/payment/error",
+        element: <div>Error</div>,
+      },
     ],
   },
 ]);

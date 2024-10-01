@@ -49,11 +49,11 @@ const ProductDetails = () => {
 
   const buyNowHandler = () => {
     if (authState.isAuthenticated) {
-      console.log(prodDetail);
+      prodDetail.qty = qty;
       dispatch(
         addBuyNowItems({
           cartItems: [prodDetail],
-          totalCartPrice: prodDetail?.price * qty,
+          totalCartPrice: prodDetail?.price * prodDetail?.qty,
           totalQty: qty,
         })
       );
