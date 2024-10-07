@@ -29,6 +29,7 @@ const Checkout = lazy(() => import("./pages/checkout/Chekout"));
 const oktaAuth = new OktaAuth(octaConfig);
 
 const restoreOriginalUri = async (_oktaAuth, originalUri) => {
+  console.log(originalUri);
   window.location.replace(originalUri || "/");
 };
 
