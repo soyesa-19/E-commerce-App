@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useOktaAuth } from "@okta/okta-react";
 import { Image } from "antd";
 import { ShareAltOutlined } from "@ant-design/icons";
 import { sendCartItem } from "../../store/cart-slice";
@@ -11,13 +10,14 @@ import {
   sendWhishlistItem,
   deleteWhishlistItem,
 } from "../../store/wishList-slice";
+import { useAuth } from "../../context/auth/hooks/useAuth";
 import { addBuyNowItems } from "../../store/buyNow-slice";
 import useGetProductDetails from "./useGetProductDetails";
 import DetailsTable from "./components/DetailsTable";
 import ButtonList from "./components/ButtonList";
 
 const ProductDetails = () => {
-  const { authState } = useOktaAuth();
+  const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get("productId");
@@ -33,22 +33,30 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
 
   const handleCart = () => {
-    console.log(prodDetail);
-    const { id, title, price, image, description } = prodDetail;
-    dispatch(sendCartItem({ id, title, price, image, description, qty }));
+    if (isAuthenticated) {
+      console.log(prodDetail);
+      const { id, title, price, image, description } = prodDetail;
+      dispatch(sendCartItem({ id, title, price, image, description, qty }));
+    } else {
+      login();
+    }
   };
 
   const handleWishList = () => {
-    const { id, title, price, image, description } = prodDetail;
-    if (inWishList) {
-      dispatch(deleteWhishlistItem({ id, title, price, image, description }));
+    if (isAuthenticated) {
+      const { id, title, price, image, description } = prodDetail;
+      if (inWishList) {
+        dispatch(deleteWhishlistItem({ id, title, price, image, description }));
+      } else {
+        dispatch(sendWhishlistItem({ id, title, price, image, description }));
+      }
     } else {
-      dispatch(sendWhishlistItem({ id, title, price, image, description }));
+      login();
     }
   };
 
   const buyNowHandler = () => {
-    if (authState.isAuthenticated) {
+    if (isAuthenticated) {
       prodDetail.qty = qty;
       dispatch(
         addBuyNowItems({
@@ -59,7 +67,7 @@ const ProductDetails = () => {
       );
       navigate("/checkout");
     } else {
-      navigate("/signin_redirect");
+      login();
     }
   };
 

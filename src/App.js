@@ -12,6 +12,7 @@ import { fetchWishlistItems } from "./store/wishList-slice";
 import { ToastContainer } from "react-toastify";
 
 import "./App.css";
+import { AuthProvider } from "./context/auth/AuthProvider";
 import HomePage from "./pages/HomePage";
 import RootLayout from "./pages/Root";
 import PrivateRoute from "./components/PrivateRoute";
@@ -119,8 +120,10 @@ function App() {
 
   return (
     <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-      <RouterProvider router={router}></RouterProvider>
-      <ToastContainer />
+      <AuthProvider>
+        <RouterProvider router={router}></RouterProvider>
+        <ToastContainer />
+      </AuthProvider>
     </Security>
   );
 }
