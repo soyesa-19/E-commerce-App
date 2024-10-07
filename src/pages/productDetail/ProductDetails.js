@@ -92,17 +92,17 @@ const ProductDetails = () => {
               <div className=" border border-brandStroke rounded-[5px]">
                 <button
                   className="w-10 h-6 "
-                  onClick={() => setQty((prev) => prev + 1)}
-                >
-                  +
-                </button>
-                <span className="w-10 h-6">{qty}</span>
-                <button
-                  className="w-10 h-6 "
                   onClick={() => setQty((prev) => prev - 1)}
                   disabled={qty === 1}
                 >
                   -
+                </button>
+                <span className="w-10 h-6">{qty}</span>
+                <button
+                  className="w-10 h-6 "
+                  onClick={() => setQty((prev) => prev + 1)}
+                >
+                  +
                 </button>
               </div>
             </div>
