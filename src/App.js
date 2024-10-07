@@ -2,17 +2,14 @@ import { useEffect, lazy, Suspense } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ReactGA from "react-ga4";
-import { OktaAuth } from "@okta/okta-auth-js";
-import { Security, LoginCallback } from "@okta/okta-react";
-import api from "./services/axios/http";
-import octaConfig from "./services/okta/oktaConfig";
-import { addFilteredProducts, addProducts } from "./store/products_slice";
+import { LoginCallback } from "@okta/okta-react";
 import { fetchCartItems } from "./store/cart-slice";
 import { fetchWishlistItems } from "./store/wishList-slice";
+import { useAuth } from "./context/auth/hooks/useAuth";
 import { ToastContainer } from "react-toastify";
 
 import "./App.css";
-import { AuthProvider } from "./context/auth/AuthProvider";
+
 import HomePage from "./pages/HomePage";
 import RootLayout from "./pages/Root";
 import PrivateRoute from "./components/PrivateRoute";
@@ -26,13 +23,6 @@ const ProductDetails = lazy(() =>
 const CartPage = lazy(() => import("./pages/cart/CartPage"));
 const WishList = lazy(() => import("./pages/whishlist/WishList"));
 const Checkout = lazy(() => import("./pages/checkout/Chekout"));
-
-const oktaAuth = new OktaAuth(octaConfig);
-
-const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-  console.log(originalUri);
-  window.location.replace(originalUri || "/");
-};
 
 const router = createBrowserRouter([
   {
@@ -110,21 +100,22 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const { isAuthenticated } = useAuth();
   ReactGA.initialize("G-MQGTMTDF4R");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCartItems());
-    dispatch(fetchWishlistItems());
-  }, []);
+    if (isAuthenticated) {
+      dispatch(fetchCartItems());
+      dispatch(fetchWishlistItems());
+    }
+  }, [isAuthenticated, dispatch]);
 
   return (
-    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-      <AuthProvider>
-        <RouterProvider router={router}></RouterProvider>
-        <ToastContainer />
-      </AuthProvider>
-    </Security>
+    <>
+      <RouterProvider router={router}></RouterProvider>
+      <ToastContainer />
+    </>
   );
 }
 

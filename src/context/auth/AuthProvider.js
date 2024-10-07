@@ -1,8 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { useOktaAuth } from "@okta/okta-react";
+import { useDispatch } from "react-redux";
+import { updatecart } from "../../store/cart-slice";
+import { updateWhishlist } from "../../store/wishList-slice";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const dispatch = useDispatch();
   const { authState, oktaAuth } = useOktaAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -15,8 +19,14 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     // Clear Okta session and tokens
     await oktaAuth.signOut();
-    // Navigate to home page after logout
-    // navigate("/");
+    dispatch(
+      updatecart({
+        items: [],
+        totalQty: 0,
+        totalPrice: 0,
+      })
+    );
+    dispatch(updateWhishlist([]));
   };
 
   const login = async () => {
