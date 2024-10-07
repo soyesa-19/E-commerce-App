@@ -4,13 +4,18 @@ import AddressModal from "./AddressModal";
 import AddressForm from "./AddressForm";
 import { useFetchAddresses } from "./hooks/useFetchAddresses";
 
-const AddressDetails = ({ currentStep, onProceed }) => {
+const AddressDetails = ({
+  currentStep,
+  onProceed,
+  selectedAddress,
+  setSelectedAddress,
+}) => {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
 
   const { data: addressList, refetch } = useFetchAddresses();
   console.log(typeof addressList);
-  const [selectedAddress, setSelectedAddress] = useState();
+
   const handleChangeAddress = () => {
     setShowAddressModal(true);
   };

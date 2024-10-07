@@ -1,7 +1,7 @@
+import { useState } from "react";
 import ProductDetails from "./ProductDetails";
 import AddressDetails from "./component/address/AddressDetails";
 import PaymentDetails from "./PaymentDetails";
-import { useState } from "react";
 
 const Orderdetails = ({
   paymentType,
@@ -9,6 +9,8 @@ const Orderdetails = ({
   prodDetails,
   totalPrice,
   totalQty,
+  selectedAddress,
+  setSelectedAddress,
 }) => {
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -18,7 +20,12 @@ const Orderdetails = ({
 
   return (
     <div className="flex flex-col w-[600px]">
-      <AddressDetails currentStep={currentStep} onProceed={onProceed} />
+      <AddressDetails
+        currentStep={currentStep}
+        onProceed={onProceed}
+        selectedAddress={selectedAddress}
+        setSelectedAddress={setSelectedAddress}
+      />
 
       <PaymentDetails
         currentStep={currentStep}

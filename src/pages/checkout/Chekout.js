@@ -12,8 +12,12 @@ const Chekout = () => {
   const { totalPrice, items, totalQty } = useSelector((store) => store.buyNow);
   const navigate = useNavigate();
   const [paymentType, setPaymentType] = useState("");
+  const [selectedAddress, setSelectedAddress] = useState();
 
   const buyNowHandler = async () => {
+    if (!selectedAddress) {
+      return alert("Please select deivery address befor eporceeding");
+    }
     if (!paymentType) {
       return alert("please select payment type");
     }
@@ -45,6 +49,8 @@ const Chekout = () => {
     <div className="flex flex-row justify-center mx-auto gap-7 mb-8">
       {/* first block */}
       <Orderdetails
+        selectedAddress={selectedAddress}
+        setSelectedAddress={setSelectedAddress}
         paymentType={paymentType}
         setPaymentType={setPaymentType}
         prodDetails={items}
