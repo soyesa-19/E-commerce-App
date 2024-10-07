@@ -7,8 +7,10 @@ import {
   sendWhishlistItem,
   deleteWhishlistItem,
 } from "../../store/wishList-slice";
+import { useAuth } from "../../context/auth/hooks/useAuth";
 
 const ProductCard = ({ title, image, description, price, rating, id }) => {
+  const { isAuthenticated } = useAuth();
   const [showFullDescription, setShowFullDescription] = useState(false);
   const inWishList = useSelector((store) =>
     store.wishList.items.some((item) => item.id === id)
@@ -55,14 +57,15 @@ const ProductCard = ({ title, image, description, price, rating, id }) => {
           </p>
         </div>
 
-        {inWishList ? (
-          <HeartFilled
-            onClick={wishlistHandler}
-            className="text-brandRed text-2xl"
-          />
-        ) : (
-          <HeartOutlined onClick={wishlistHandler} className=" text-2xl" />
-        )}
+        {isAuthenticated &&
+          (inWishList ? (
+            <HeartFilled
+              onClick={wishlistHandler}
+              className="text-brandRed text-2xl"
+            />
+          ) : (
+            <HeartOutlined onClick={wishlistHandler} className=" text-2xl" />
+          ))}
       </div>
     </div>
   );
