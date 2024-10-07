@@ -19,8 +19,12 @@ export const AuthProvider = ({ children }) => {
     // navigate("/");
   };
 
+  const login = async () => {
+    void oktaAuth.signInWithRedirect();
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, logout, login }}>
       {children}
     </AuthContext.Provider>
   );
