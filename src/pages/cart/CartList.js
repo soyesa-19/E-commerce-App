@@ -53,16 +53,16 @@ const CartList = ({ cartItems }) => {
               <p>QTY: {item?.qty}</p>
               <div>
                 <button
-                  onClick={() => handleAddToCart(item)}
+                  onClick={() => handleRemoveItem(item)}
                   className="rounded-l-md rounded-r-none border border-brandStroke w-8 h-8"
                 >
-                  +
+                  -
                 </button>
                 <button
-                  onClick={() => handleRemoveItem(item)}
+                  onClick={() => handleAddToCart(item)}
                   className="rounded-r-md rounded-l-none border border-brandStroke w-8 h-8"
                 >
-                  -
+                  +
                 </button>
               </div>
               <p className="text-brandDark text-base font-semibold">
