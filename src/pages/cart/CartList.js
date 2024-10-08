@@ -11,8 +11,8 @@ const CartList = ({ cartItems }) => {
   const dispatch = useDispatch();
   const wishList = useSelector((store) => store.wishList.items);
 
-  const handleRemoveItem = (item) => {
-    dispatch(removeItemFromCart(item));
+  const handleRemoveItem = (item, qty = 1) => {
+    dispatch(removeItemFromCart(item, qty));
   };
 
   const handleAddToCart = (prodDetail) => {
@@ -20,19 +20,13 @@ const CartList = ({ cartItems }) => {
     dispatch(sendCartItem({ id, title, image, price, description }));
   };
 
-  const moveToWishList = ({
-    id,
-    title,
-    price,
-    image,
-    totalPrice,
-    description,
-  }) => {
+  const moveToWishList = (item, qty) => {
+    const { id, title, price, image, totalPrice, description } = item;
     const inWishList = wishList.some((item) => item.id === id);
     if (inWishList) {
       alert("item already in wishlist");
     } else {
-      dispatch(removeItemFromCart({ id, title, price, image, totalPrice }));
+      dispatch(removeItemFromCart(item, qty));
       dispatch(sendWhishlistItem({ id, title, price, image, description }));
     }
   };
@@ -75,13 +69,13 @@ const CartList = ({ cartItems }) => {
               </p>
               <div>
                 <button
-                  onClick={() => handleRemoveItem(item)}
+                  onClick={() => handleRemoveItem(item, item?.qty)}
                   className=" border border-brandDark py-2 px-6 rounded-md"
                 >
                   Remove
                 </button>
                 <button
-                  onClick={() => moveToWishList(item)}
+                  onClick={() => moveToWishList(item, item?.qty)}
                   className=" border-none text-brandPrimary py-2 px-6"
                 >
                   Move to whishist
