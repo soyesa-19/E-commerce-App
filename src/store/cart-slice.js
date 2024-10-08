@@ -36,7 +36,6 @@ const cartItem = createSlice({
           id: newItem.id,
           title: newItem.title,
           price: newItem.price,
-          totalPrice: newItem.totalPrice,
           image: newItem.image,
           qty: newItem.qty,
           description: newItem.description,
@@ -49,17 +48,18 @@ const cartItem = createSlice({
     },
 
     removeItem(state, action) {
-      state.totalQty--;
-      const newItemId = action.payload;
+      console.log(action.payload);
+      const { id: newItemId, qty } = action.payload;
+      state.totalQty -= qty;
       console.log(newItemId);
       const existItem = state.items.find((item) => item.id === newItemId);
-      state.totalPrice -= existItem.price;
+      state.totalPrice -= existItem.price * qty;
       console.log(existItem);
-      if (existItem.qty === 1) {
+      existItem.qty -= qty;
+      if (existItem.qty === 0) {
         console.log("hi");
         state.items = state.items.filter((item) => item.id !== newItemId);
       } else {
-        existItem.qty--;
         existItem.totalPrice = existItem.totalPrice - existItem.price;
       }
     },
@@ -132,13 +132,14 @@ export const sendCartItem = (prodDetail) => {
   };
 };
 
-export const removeItemFromCart = (item) => {
+export const removeItemFromCart = (item, qty) => {
   return async (dispatch) => {
     const { id, totalPrice, title, image, price } = item;
-    dispatch(removeItem(id));
+    dispatch(removeItem({ id, qty }));
     try {
       const response = await api.post(REACT_APP_REMOVEITEM_FROM_CART, {
         id,
+        qty,
       });
       console.log(response);
       if (response.status === 201) {
@@ -154,7 +155,7 @@ export const removeItemFromCart = (item) => {
         });
       }
     } catch (error) {
-      dispatch(addItem({ id, totalPrice, title, image, price }));
+      dispatch(addItem({ id, title, image, price, qty }));
       toast.error(
         "Something went wrong, backend cannot be updated, item cannot be deleted from cart",
         {
